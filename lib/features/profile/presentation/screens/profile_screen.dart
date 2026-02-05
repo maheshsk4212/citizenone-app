@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/features/auth/presentation/providers/auth_provider.dart';
+import 'package:flutter_lucide/flutter_lucide.dart'; // Use Lucide for thinner, cleaner icons
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -37,14 +38,11 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              child: const Center(
-                child: Text(
-                  'C',
-                  style: TextStyle(
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF92400E), // Brown-ish for the initial on that skin tone bg
-                  ),
+              child: Center(
+                child: Icon(
+                  Icons.face_3_rounded, // Retaining this as it's a good specific avatar icon availability
+                  size: 64,
+                  color: const Color(0xFF92400E), 
                 ),
               ),
             ),
@@ -52,7 +50,7 @@ class ProfileScreen extends ConsumerWidget {
             const Text(
               'Customer',
               style: TextStyle(
-                fontSize: 26,
+                fontSize: 20, // Reduced to 20px
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
                 letterSpacing: -0.5,
@@ -62,7 +60,7 @@ class ProfileScreen extends ConsumerWidget {
             Text(
               'Gold Member • Lusaka',
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 13, // Reduced to 13px
                 color: Colors.grey[600],
                 fontWeight: FontWeight.w500,
               ),
@@ -74,11 +72,11 @@ class ProfileScreen extends ConsumerWidget {
             const SizedBox(height: 12),
             _buildMenuCard([
               _buildMenuItem(
-                icon: Icons.person_outline_rounded,
+                icon: Icons.person_outline,
                 title: 'Personal Information',
                 onTap: () {},
               ),
-              const Divider(height: 1, indent: 60, endIndent: 20),
+              const Divider(height: 1, indent: 60, endIndent: 20, color: Color(0xFFF3F4F6)), // Very light grey (gray-100)
               _buildMenuItem(
                 icon: Icons.shield_outlined,
                 title: 'Security & Privacy',
@@ -95,9 +93,9 @@ class ProfileScreen extends ConsumerWidget {
                 title: 'App Settings',
                 onTap: () {},
               ),
-              const Divider(height: 1, indent: 60, endIndent: 20),
+              const Divider(height: 1, indent: 60, endIndent: 20, color: Color(0xFFF3F4F6)),
               _buildMenuItem(
-                icon: Icons.help_outline_rounded,
+                icon: Icons.help_outline,
                 title: 'Help & Support',
                 onTap: () {},
               ),
@@ -110,11 +108,11 @@ class ProfileScreen extends ConsumerWidget {
               margin: const EdgeInsets.symmetric(horizontal: 4),
               child: ElevatedButton.icon(
                 onPressed: () => context.go('/login'),
-                icon: const Icon(Icons.logout_rounded, color: Color(0xFFEF4444), size: 20),
+                icon: const Icon(Icons.logout, color: Color(0xFFEF4444), size: 18),
                 label: const Text(
                   'Log Out',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFEF4444),
                   ),
@@ -123,9 +121,9 @@ class ProfileScreen extends ConsumerWidget {
                   backgroundColor: const Color(0xFFFEF2F2),
                   foregroundColor: const Color(0xFFEF4444),
                   elevation: 0,
-                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(12), // Tighter radius
                   ),
                 ),
               ),
@@ -140,13 +138,16 @@ class ProfileScreen extends ConsumerWidget {
   Widget _buildSectionHeader(String title) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w800,
-          color: Colors.grey[500],
-          letterSpacing: 1.0,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 4),
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 12, // Slightly smaller caps
+            fontWeight: FontWeight.w700,
+            color: Colors.grey[500],
+            letterSpacing: 1.2,
+          ),
         ),
       ),
     );
@@ -156,14 +157,15 @@ class ProfileScreen extends ConsumerWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(16), // Reduced from 24
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
+            blurRadius: 8, // Reduced from 16
+            offset: const Offset(0, 2),
           ),
         ],
+        border: Border.all(color: Colors.grey.withOpacity(0.1)), // Added subtle border for crispness
       ),
       child: Column(children: children),
     );
@@ -176,27 +178,27 @@ class ProfileScreen extends ConsumerWidget {
   }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(16),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16), // Tighter padding
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(8),
-              child: Icon(icon, color: Colors.grey[600], size: 28),
+              child: Icon(icon, color: Colors.grey[600], size: 22), // Reduced size
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 17,
+                  fontSize: 15, // Reduced from 17
                   color: AppColors.textPrimary,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500, // Reduced weight slightly
                 ),
               ),
             ),
-            Icon(Icons.chevron_right_rounded, color: Colors.grey[300], size: 28),
+            Icon(Icons.chevron_right, color: Colors.grey[300], size: 24),
           ],
         ),
       ),

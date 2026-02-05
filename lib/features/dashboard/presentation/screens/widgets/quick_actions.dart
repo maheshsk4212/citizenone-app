@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
+import 'package:citizenone_app/core/design_system/tokens/typography.dart';
+import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
+import 'package:citizenone_app/core/common/widgets/section_header.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,20 +17,10 @@ class QuickActions extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 12),
-          child: Text(
-            'QUICK ACTIONS',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textSecondary,
-              letterSpacing: 1.0,
-            ),
-          ),
-        ),
+        const SectionHeader(title: 'Quick Actions'),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: _getActions(role).map((action) => _buildActionItem(context, action)).toList(),
         ),
       ],
@@ -62,22 +55,18 @@ class QuickActions extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            width: 56, // Slightly wider to match design
-            height: 56,
+            width: AppDimensions.iconBoxSize, 
+            height: AppDimensions.iconBoxSize,
             decoration: BoxDecoration(
               color: action.bgColor,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(action.icon, size: 24, color: action.iconColor),
+            child: Icon(action.icon, size: AppDimensions.iconSize, color: action.iconColor),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppDimensions.iconToLabelGap),
           Text(
             action.label,
-            style: const TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
-            ),
+            style: AppTypography.gridItemLabel,
             textAlign: TextAlign.center,
           ),
         ],

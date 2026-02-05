@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
+import 'package:citizenone_app/core/design_system/tokens/typography.dart';
+import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 import 'package:citizenone_app/features/dashboard/domain/entities/service_entity.dart';
 
 class ServiceCard extends StatelessWidget {
@@ -16,12 +18,15 @@ class ServiceCard extends StatelessWidget {
            context.push(service.route); 
         }
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start, // Top aligned to match QuickActions
+          crossAxisAlignment: CrossAxisAlignment.start, // Left aligned to match header
+          children: [
           Container(
-            width: 72, // Larger icon container
-            height: 72,
+            width: AppDimensions.iconBoxSize, // Standardized
+            height: AppDimensions.iconBoxSize,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(24), // Squircle
@@ -33,26 +38,25 @@ class ServiceCard extends StatelessWidget {
             child: Center(
               child: Icon(
                 service.icon, 
-                size: 28, 
+                size: AppDimensions.iconSize, 
                 color: service.color ?? AppColors.primary
               ),
             ),
           ),
-          const SizedBox(height: 12),
-          Text(
-            service.title,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textMain, // Dark gray text
-              letterSpacing: 0.2,
+          const SizedBox(height: AppDimensions.iconToLabelGap),
+          SizedBox(
+            width: AppDimensions.iconBoxSize, // Constrain width to ensure centering relative to icon
+            child: Text(
+              service.title,
+              style: AppTypography.gridItemLabel,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
+    ),
     );
   }
 }

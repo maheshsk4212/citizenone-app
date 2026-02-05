@@ -222,10 +222,11 @@ class AppShell extends ConsumerWidget {
       child: SafeArea(
         top: false,
         child: Container(
-          height: 72,
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          height: 88,
+          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               _NavBarItem(
                 icon: Icons.home_outlined,

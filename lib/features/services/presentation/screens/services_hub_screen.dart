@@ -33,9 +33,10 @@ class ServicesHubScreen extends StatelessWidget {
               crossAxisCount: 4,
               crossAxisSpacing: 16,
               mainAxisSpacing: 24,
-              childAspectRatio: 0.85,
+              childAspectRatio: 0.6,
               children: [
                 _ServiceItem(
+// ... (I will use multi_replace for this to be cleaner)
                   title: 'Wealth',
                   icon: LucideIcons.circle_dollar_sign,
                   color: const Color(0xFF7C3AED),
@@ -175,6 +176,8 @@ class _ServiceItem extends StatelessWidget {
               color: Color(0xFF333333),
               height: 1.3,
             ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
