@@ -4,6 +4,7 @@ import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/core/design_system/tokens/typography.dart';
 import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 import 'package:citizenone_app/core/common/widgets/section_header.dart';
+import 'package:citizenone_app/core/design_system/responsive.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,18 +15,56 @@ class QuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SectionHeader(title: 'Quick Actions'),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: _getActions(role).map((action) => _buildActionItem(context, action)).toList(),
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 800),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: Colors.grey.withOpacity(0.1)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.03),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: _buildResponsiveLayout(context, role),
         ),
-      ],
+      ),
     );
   }
+
+  Widget _buildResponsiveLayout(BuildContext context, UserRole role) {
+    bool isWeb = ResponsiveLayout.isDesktop(context);
+    List<_ActionItem> actions = _getActions(role);
+    
+    if (isWeb) {
+       return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: actions.asMap().entries.map((entry) {
+             int idx = entry.key;
+             _ActionItem action = entry.value;
+             return Padding(
+               padding: EdgeInsets.only(right: idx < actions.length - 1 ? 40.0 : 0),
+               child: _buildActionItem(context, action),
+             );
+          }).toList(),
+       );
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: actions.map((action) => _buildActionItem(context, action)).toList(),
+    );
+  }
+
 
   List<_ActionItem> _getActions(UserRole role) {
     if (role == UserRole.agent) {

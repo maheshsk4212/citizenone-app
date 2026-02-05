@@ -37,6 +37,7 @@ class AppShell extends ConsumerWidget {
           ? Row(
               children: [
                 _buildSideNavRail(context, location, ref, role),
+                const VerticalDivider(width: 1, thickness: 1, color: Color(0xFFE5E7EB)), // Divider
                 Expanded(
                   child: Column(
                     children: [
@@ -48,7 +49,7 @@ class AppShell extends ConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                             const Text('Dashboard', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                             const Text('Dashboard', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800, letterSpacing: -0.5)),
                              // Re-use header logic or simplified profile
                              Row(
                                children: [
@@ -173,7 +174,7 @@ class AppShell extends ConsumerWidget {
 
   Widget _buildSideNavRail(BuildContext context, String currentLocation, WidgetRef ref, UserRole role) {
     return Container(
-      width: 250,
+      width: 280,
       color: Colors.white,
       child: Column(
         children: [
@@ -318,14 +319,32 @@ class _SideNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: isActive ? AppColors.primary : AppColors.textMuted),
-      title: Text(label, style: TextStyle(color: isActive ? AppColors.primary : AppColors.textMuted, fontWeight: isActive ? FontWeight.bold : FontWeight.normal)),
-      selected: isActive,
-      onTap: onTap,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      tileColor: isActive ? AppColors.primary.withOpacity(0.1) : null,
+    return Container(
+      decoration: BoxDecoration(
+        border: isActive 
+          ? const Border(left: BorderSide(color: AppColors.primary, width: 3))
+          : null,
+      ),
+      child: ListTile(
+        leading: Icon(
+          icon, 
+          color: isActive ? AppColors.primary : AppColors.textMain.withOpacity(0.6),
+          size: isActive ? 26 : 24,
+        ),
+        title: Text(
+          label, 
+          style: TextStyle(
+            color: isActive ? AppColors.primary : AppColors.textMain.withOpacity(0.8), 
+            fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
+            fontSize: 14,
+          )
+        ),
+        selected: isActive,
+        onTap: onTap,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)), // Square edges for border match
+        tileColor: isActive ? AppColors.primary.withOpacity(0.04) : null, // Much subtler bg
+      ),
     );
   }
 }

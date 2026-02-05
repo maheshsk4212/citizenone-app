@@ -13,6 +13,7 @@ import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/q
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/recent_activity.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/weather_widget.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
+import 'package:citizenone_app/features/dashboard/domain/entities/service_entity.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:citizenone_app/core/design_system/responsive.dart';
@@ -32,28 +33,57 @@ class SuperHomeScreen extends ConsumerWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20), // Explicit top spacing to replace padding
-                // Hero Card (Top - Bill Due)
-                HeroCard(role: role),
-                const SizedBox(height: AppDimensions.sectionVerticalSpacing),
-                
-                // Quick Actions
-                QuickActions(role: role),
-                const SizedBox(height: AppDimensions.sectionVerticalSpacing),
-                
-                // Services Title
-                SectionHeader(
-                  title: 'All Services',
-                  actionLabel: 'View All',
-                  onActionTap: () => context.push('/services'),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      HeroCard(role: role),
+                    ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
+        
+        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+        
+        // Quick Actions Section
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: const SectionHeader(title: 'Quick Actions'),
+          ),
+        ),
+        
+        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
+        
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: QuickActions(role: role),
+          ),
+        ),
+        
+        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+        
+        // Services Section
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: SectionHeader(
+              title: 'All Services',
+              actionLabel: 'View All',
+              onActionTap: () => context.push('/services'),
+            ),
+          ),
+        ),
+        
+        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
+        
         SliverPadding(
           padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           sliver: SliverGrid(
@@ -63,11 +93,11 @@ class SuperHomeScreen extends ConsumerWidget {
               },
               childCount: services.length,
             ),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 100, // force compact width to fit ~4 on mobile
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              mainAxisExtent: 160, // Fixed height to guarantee no overflow regardless of width
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 110,
+              mainAxisSpacing: ResponsiveLayout.isDesktop(context) ? 16 : 4,
+              crossAxisSpacing: 16,
+              mainAxisExtent: 140,
             ),
           ),
         ),
