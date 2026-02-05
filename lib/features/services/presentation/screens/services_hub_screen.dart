@@ -10,114 +10,129 @@ class ServicesHubScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'ALL SERVICES',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF666666),
-                letterSpacing: 1.0,
-              ),
-            ),
-            const SizedBox(height: 24),
-            
-            // Services Grid - matching the provided design exactly
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 4,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 24,
-              childAspectRatio: 0.6,
+      body: Container(
+        constraints: const BoxConstraints(maxWidth: 800),
+        child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _ServiceItem(
-// ... (I will use multi_replace for this to be cleaner)
-                  title: 'Wealth',
-                  icon: LucideIcons.circle_dollar_sign,
-                  color: const Color(0xFF7C3AED),
-                  onTap: () => context.push('/services/wealth'),
+                const Text(
+                  'ALL SERVICES',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF666666),
+                    letterSpacing: 1.0,
+                  ),
                 ),
-                _ServiceItem(
-                  title: 'HealthEzy',
-                  icon: LucideIcons.heart,
-                  color: const Color(0xFFE91E63),
-                  onTap: () => context.push('/services/health'),
+                const SizedBox(height: 24),
+                
+                // Services Grid
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    // Mobile default is 4. For tablet/web, increase to avoid huge icons.
+                    int crossAxisCount = 4;
+                    if (constraints.maxWidth > 500) {
+                      crossAxisCount = 6;
+                    }
+                    if (constraints.maxWidth > 700) {
+                      crossAxisCount = 8;
+                    }
+
+                    return GridView.count(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 24,
+                      childAspectRatio: 0.75, // Adjusted to be slightly less tall relative to width
+                      children: [
+                        _ServiceItem(
+                          title: 'Wealth',
+                          icon: LucideIcons.circle_dollar_sign,
+                          color: const Color(0xFF7C3AED),
+                          onTap: () => context.push('/services/wealth'),
+                        ),
+                        _ServiceItem(
+                          title: 'HealthEzy',
+                          icon: LucideIcons.heart,
+                          color: const Color(0xFFE91E63),
+                          onTap: () => context.push('/services/health'),
+                        ),
+                        _ServiceItem(
+                          title: 'Sport & Mind',
+                          icon: LucideIcons.dumbbell,
+                          color: const Color(0xFF14B8A6),
+                          onTap: () => context.push('/services/sport'),
+                        ),
+                        _ServiceItem(
+                          title: 'Bill Pay',
+                          icon: LucideIcons.receipt,
+                          color: const Color(0xFFF97316),
+                          onTap: () => context.push('/services/bills'),
+                        ),
+                        _ServiceItem(
+                          title: 'Insurance',
+                          icon: LucideIcons.shield,
+                          color: const Color(0xFFEF4444),
+                          onTap: () => context.push('/services/insurance'),
+                        ),
+                        _ServiceItem(
+                          title: 'Govt Services',
+                          icon: LucideIcons.landmark,
+                          color: const Color(0xFF3B82F6),
+                          onTap: () => context.push('/services/gov'),
+                        ),
+                        _ServiceItem(
+                          title: 'Common Svcs',
+                          icon: LucideIcons.grid_3x3,
+                          color: const Color(0xFF3B82F6),
+                          onTap: () => context.push('/services/common'),
+                        ),
+                        _ServiceItem(
+                          title: 'Banking',
+                          icon: LucideIcons.building,
+                          color: const Color(0xFF3B82F6),
+                          onTap: () => context.push('/services/banking'),
+                        ),
+                        _ServiceItem(
+                          title: 'Mobile Topup',
+                          icon: LucideIcons.smartphone,
+                          color: const Color(0xFF8B5CF6),
+                          onTap: () => context.push('/services/mobile'),
+                        ),
+                        _ServiceItem(
+                          title: 'Marketplace',
+                          icon: LucideIcons.shopping_bag,
+                          color: const Color(0xFFEC4899),
+                          onTap: () => context.push('/services/market'),
+                        ),
+                        _ServiceItem(
+                          title: 'Agri Services',
+                          icon: LucideIcons.sprout,
+                          color: const Color(0xFF10B981),
+                          onTap: () => context.push('/services/agri'),
+                        ),
+                        _ServiceItem(
+                          title: 'Logistics',
+                          icon: LucideIcons.truck,
+                          color: const Color(0xFFF97316),
+                          onTap: () => context.push('/services/logistics'),
+                        ),
+                        _ServiceItem(
+                          title: 'SME Services',
+                          icon: LucideIcons.briefcase,
+                          color: const Color(0xFF6366F1),
+                          onTap: () => context.push('/services/sme'),
+                        ),
+                      ],
+                    );
+                  }
                 ),
-                _ServiceItem(
-                  title: 'Sport & Mind',
-                  icon: LucideIcons.dumbbell,
-                  color: const Color(0xFF14B8A6),
-                  onTap: () => context.push('/services/sport'),
-                ),
-                _ServiceItem(
-                  title: 'Bill Pay',
-                  icon: LucideIcons.receipt,
-                  color: const Color(0xFFF97316),
-                  onTap: () => context.push('/services/bills'),
-                ),
-                _ServiceItem(
-                  title: 'Insurance',
-                  icon: LucideIcons.shield,
-                  color: const Color(0xFFEF4444),
-                  onTap: () => context.push('/services/insurance'),
-                ),
-                _ServiceItem(
-                  title: 'Govt Services',
-                  icon: LucideIcons.landmark,
-                  color: const Color(0xFF3B82F6),
-                  onTap: () => context.push('/services/gov'),
-                ),
-                _ServiceItem(
-                  title: 'Common Svcs',
-                  icon: LucideIcons.grid_3x3,
-                  color: const Color(0xFF3B82F6),
-                  onTap: () => context.push('/services/common'),
-                ),
-                _ServiceItem(
-                  title: 'Banking',
-                  icon: LucideIcons.building,
-                  color: const Color(0xFF3B82F6),
-                  onTap: () => context.push('/services/banking'),
-                ),
-                _ServiceItem(
-                  title: 'Mobile Topup',
-                  icon: LucideIcons.smartphone,
-                  color: const Color(0xFF8B5CF6),
-                  onTap: () => context.push('/services/mobile'),
-                ),
-                _ServiceItem(
-                  title: 'Marketplace',
-                  icon: LucideIcons.shopping_bag,
-                  color: const Color(0xFFEC4899),
-                  onTap: () => context.push('/services/market'),
-                ),
-                _ServiceItem(
-                  title: 'Agri Services',
-                  icon: LucideIcons.sprout,
-                  color: const Color(0xFF10B981),
-                  onTap: () => context.push('/services/agri'),
-                ),
-                _ServiceItem(
-                  title: 'Logistics',
-                  icon: LucideIcons.truck,
-                  color: const Color(0xFFF97316),
-                  onTap: () => context.push('/services/logistics'),
-                ),
-                _ServiceItem(
-                  title: 'SME Services',
-                  icon: LucideIcons.briefcase,
-                  color: const Color(0xFF6366F1),
-                  onTap: () => context.push('/services/sme'),
-                ),
+                const SizedBox(height: 80), // Bottom padding for nav bar
               ],
-            ),
-            const SizedBox(height: 80), // Bottom padding for nav bar
-          ],
+          ),
         ),
       ),
     );
