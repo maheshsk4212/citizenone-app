@@ -211,12 +211,20 @@ final appRouter = GoRouter(
         builder: (context, state) => const EmiCalculatorScreen(),
      ),
 
-    // Fix for legacy/broken links pointing to /services/loans
-    // Placed at top level to ensure capture before Shell logic
     GoRoute(
       path: '/services/loans',
       redirect: (context, state) => '/loans',
       builder: (context, state) => const SizedBox.shrink(), // Dummy builder for safety
+    ),
+
+    // Fix for legacy/broken links pointing to /loans/status
+    GoRoute(
+      path: '/loans/status',
+      redirect: (context, state) {
+         final ref = state.uri.queryParameters['ref'];
+         return '/application/status?ref=${ref ?? ""}';
+      },
+      builder: (context, state) => const SizedBox.shrink(),
     ),
   ],
 );
