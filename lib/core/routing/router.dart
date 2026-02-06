@@ -32,7 +32,22 @@ import 'package:citizenone_app/features/dashboard/presentation/screens/mini_serv
 import 'package:citizenone_app/core/common/widgets/service_placeholder_screen.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/home', // Skip splash for dev speed, or keep '/'
+  initialLocation: '/home',
+  errorBuilder: (context, state) => Scaffold(
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Page not found'),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => context.go('/home'),
+            child: const Text('Go Home'),
+          ),
+        ],
+      ),
+    ),
+  ),
   routes: [
     GoRoute(
       path: '/',
