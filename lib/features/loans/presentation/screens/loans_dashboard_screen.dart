@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:go_router/go_router.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
+import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
+import 'package:citizenone_app/features/loans/presentation/providers/loan_provider.dart';
+import 'package:citizenone_app/features/loans/domain/entities/loan_application.dart';
 
 class LoansDashboardScreen extends StatelessWidget {
   const LoansDashboardScreen({super.key});
@@ -9,280 +12,565 @@ class LoansDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: const Color(0xFFFAFAFA),
       appBar: AppBar(
-        title: const Column(
-          children: [
-            Text('Loans', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            Text('Find the right loan for your needs', style: TextStyle(fontSize: 12, color: AppColors.textSecondary, fontWeight: FontWeight.normal)),
-          ],
-        ),
-        centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-          onPressed: () => context.go('/home'),
+          icon: const Icon(LucideIcons.arrow_left, color: AppColors.textPrimary),
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go('/home');
+            }
+          },
         ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Loans Dashboard',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            const Text(
+              'Find the right financing for you',
+              style: TextStyle(
+                fontSize: 12,
+                color: Color(0xFF64748B),
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              icon: const Icon(LucideIcons.search, color: AppColors.textPrimary),
+              onPressed: () {},
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // AI Best Loan Card
-            _buildAILoanCard(),
-            const SizedBox(height: 32),
-            
-            // Loan Categories
-            const Text(
-              'Browse Categories',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+            // Promotional Banner
+            Container(
+              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF6366F1), Color(0xFF4F46E5)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(
+                  color: const Color(0xFF6366F1).withOpacity(0.3),
+                  width: 1,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 100,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+              child: Row(
                 children: [
-                  _buildCategoryItem(Icons.person, 'Personal', Colors.orange),
-                  const SizedBox(width: 12),
-                  _buildCategoryItem(Icons.home, 'Home', Colors.blue),
-                  const SizedBox(width: 12),
-                  _buildCategoryItem(Icons.directions_car, 'Car', Colors.green),
-                  const SizedBox(width: 12),
-                  _buildCategoryItem(Icons.school, 'Education', Colors.purple),
-                   const SizedBox(width: 12),
-                  _buildCategoryItem(Icons.business, 'Business', Colors.teal),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Need funds quickly?',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Get pre-approved personal loans up to ZK 50,000 instantly.',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white70,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: const Color(0xFF4F46E5),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Check Loan Eligibility',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Icon(
+                    LucideIcons.shield_check,
+                    size: 80,
+                    color: Colors.white.withOpacity(0.2),
+                  ),
                 ],
               ),
             ),
-             const SizedBox(height: 32),
 
-             // Loan List (Comparison)
-            const Text(
-              'Recommended for You',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+            // Loan Categories
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Loan Categories',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text('View All'),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
-            _buildComparisonCard(
-              bankName: 'HDFC Bank',
-              logoColor: Colors.blue[900]!,
-              interestRate: '10.5%',
-              emi: '₹2,450',
-              tenure: '5 Years',
-              tag: 'Best Rate',
-              context: context,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Wrap(
+                spacing: 12,
+                runSpacing: 20,
+                children: [
+                  _LoanCategoryCard(
+                    title: 'Personal Loan',
+                    icon: LucideIcons.briefcase,
+                    color: const Color(0xFFDBEAFE),
+                    iconColor: const Color(0xFF2563EB),
+                    onTap: () => context.push('/loans/personal'),
+                  ),
+                  _LoanCategoryCard(
+                    title: 'Home Loan',
+                    icon: LucideIcons.house,
+                    color: const Color(0xFFDCFCE7),
+                    iconColor: const Color(0xFF16A34A),
+                    onTap: () {},
+                  ),
+                  _LoanCategoryCard(
+                    title: 'Vehicle Loan',
+                    icon: LucideIcons.car,
+                    color: const Color(0xFFFFEDD5),
+                    iconColor: const Color(0xFFF97316),
+                    onTap: () {},
+                  ),
+                  _LoanCategoryCard(
+                    title: 'Agri Loan',
+                    icon: LucideIcons.sprout,
+                    color: const Color(0xFFD1FAE5),
+                    iconColor: const Color(0xFF10B981),
+                    onTap: () {},
+                  ),
+                  _LoanCategoryCard(
+                    title: 'Education',
+                    icon: LucideIcons.graduation_cap,
+                    color: const Color(0xFFF3E8FF),
+                    iconColor: const Color(0xFF9333EA),
+                    onTap: () {},
+                  ),
+                  _LoanCategoryCard(
+                    title: 'MSME Business',
+                    icon: LucideIcons.building_2,
+                    color: const Color(0xFFDDD6FE),
+                    iconColor: const Color(0xFF7C3AED),
+                    onTap: () {},
+                  ),
+                  _LoanCategoryCard(
+                    title: 'Construction',
+                    icon: LucideIcons.hammer,
+                    color: const Color(0xFFFEF3C7),
+                    iconColor: const Color(0xFFEAB308),
+                    onTap: () {},
+                  ),
+                  _LoanCategoryCard(
+                    title: 'Asset Based',
+                    icon: LucideIcons.landmark,
+                    color: const Color(0xFFFEE2E2),
+                    iconColor: const Color(0xFFEF4444),
+                    onTap: () {},
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 16),
-            _buildComparisonCard(
-              bankName: 'ICICI Bank',
-              logoColor: Colors.orange[800]!,
-              interestRate: '10.75%',
-              emi: '₹2,480',
-              tenure: '5 Years',
-              tag: 'Fast Approval',
-              context: context,
+
+            const SizedBox(height: 32),
+
+            // EMI Calculator
+            GestureDetector(
+              onTap: () => context.push('/loans/emi-calculator'),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFEDD5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(
+                        LucideIcons.calculator,
+                        color: Color(0xFFF97316),
+                        size: 22,
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'EMI Calculator',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          const Text(
+                            'Plan your finances with our easy calculator',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF94A3B8),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(LucideIcons.chevron_right, color: Color(0xFFCBD5E1), size: 20),
+                  ],
+                ),
+              ),
             ),
-             const SizedBox(height: 16),
-            _buildComparisonCard(
-              bankName: 'Axis Bank',
-              logoColor: Colors.pink[800]!,
-              interestRate: '11.0%',
-              emi: '₹2,510',
-              tenure: '5 Years',
-              context: context,
+
+            const SizedBox(height: 32),
+
+            // Why choose us?
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Why choose us?',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  const _BenefitItem(
+                    number: '1',
+                    title: 'Multiple Banks',
+                    subtitle: 'Compare rates from over 10+ partners.',
+                  ),
+                  const SizedBox(height: 12),
+                  const _BenefitItem(
+                    number: '2',
+                    title: 'Paperless Process',
+                    subtitle: '100% digital application and documentation.',
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 32),
+
+            // My Applications
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                'My Applications',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
+            ...mockLoanApplications.map((app) => _ApplicationCard(application: app)),
+            const SizedBox(height: 100), // Extra padding for bottom nav bar
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LoanCategoryCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Color color;
+  final Color iconColor;
+  final VoidCallback onTap;
+
+  const _LoanCategoryCard({
+    required this.title,
+    required this.icon,
+    required this.color,
+    required this.iconColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: SizedBox(
+        width: 80,
+        child: Column(
+          children: [
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(icon, color: iconColor, size: 28),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF334155),
+              ),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildAILoanCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: const LinearGradient(
-          colors: [Color(0xFF4F46E5), Color(0xFF7C3AED)], // Indigo to Violet
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+class _BenefitItem extends StatelessWidget {
+  final String number;
+  final String title;
+  final String subtitle;
+
+  const _BenefitItem({
+    required this.number,
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 28,
+          height: 28,
+          decoration: BoxDecoration(
+            color: const Color(0xFFDBEAFE),
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Text(
+              number,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF2563EB),
+              ),
+            ),
+          ),
         ),
-        boxShadow: const [
-          BoxShadow(color: Color(0x4D4F46E5), blurRadius: 20, offset: Offset(0, 10)),
-        ],
-      ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1E293B),
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFF64748B),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ApplicationCard extends StatelessWidget {
+  final LoanApplication application;
+
+  const _ApplicationCard({required this.application});
+
+  @override
+  Widget build(BuildContext context) {
+    Color statusColor;
+    Color statusBgColor;
+    switch (application.status) {
+      case 'Approved':
+        statusColor = const Color(0xFF16A34A);
+        statusBgColor = const Color(0xFFDCFCE7);
+        break;
+      case 'Credit Scoring':
+        statusColor = const Color(0xFF9333EA);
+        statusBgColor = const Color(0xFFF3E8FF);
+        break;
+      default:
+        statusColor = const Color(0xFF64748B);
+        statusBgColor = const Color(0xFFF1F5F9);
+    }
+
+    return GestureDetector(
+      onTap: () {
+        context.push('/loans/status?ref=${application.referenceNumber}');
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFFE2E8F0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
+              Text(
+                application.loanType,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
                 ),
-                child: const Icon(LucideIcons.sparkles, color: Colors.white, size: 20),
               ),
-              const SizedBox(width: 12),
-              const Text(
-                'Best Loan for You',
-                style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'Based on your income & credit score',
-            style: TextStyle(color: Colors.white70, fontSize: 12),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'HDFC Personal Loan',
-            style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-           const SizedBox(height: 8),
-          const Row(
-            children: [
-              Text('Interest: 10.5%', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-              SizedBox(width: 16),
-              Text('Max Amount: ₹15L', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-            ],
-          ),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: const Color(0xFF4F46E5),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                elevation: 0,
-              ),
-              child: const Text('Check Eligibility', style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCategoryItem(IconData icon, String label, Color color) {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.grey[100]!),
-            boxShadow: AppColors.shadowSm,
-          ),
-          child: Icon(icon, color: color, size: 28),
-        ),
-        const SizedBox(height: 8),
-        Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textMain)),
-      ],
-    );
-  }
-
-  Widget _buildComparisonCard({
-    required String bankName,
-    required Color logoColor,
-    required String interestRate,
-    required String emi,
-    required String tenure,
-    String? tag,
-    required BuildContext context,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[200]!),
-        boxShadow: AppColors.shadowSm,
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
               Container(
-                 width: 40, height: 40,
-                 decoration: BoxDecoration(color: logoColor.withOpacity(0.1), shape: BoxShape.circle),
-                 child: Center(child: Text(bankName[0], style: TextStyle(color: logoColor, fontWeight: FontWeight.bold))),
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(bankName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.textPrimary)),
-                  if (tag != null)
-                    Container(
-                      margin: const EdgeInsets.only(top: 4),
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(color: const Color(0xFFDCFCE7), borderRadius: BorderRadius.circular(4)), // green-100
-                      child: Text(tag, style: const TextStyle(fontSize: 10, color: Color(0xFF166534), fontWeight: FontWeight.bold)), // green-800
-                    ),
-                ],
-              ),
-              const Spacer(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(interestRate, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                  const Text('Interest Rate', style: TextStyle(fontSize: 10, color: AppColors.textSecondary)),
-                ],
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: statusBgColor,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  application.status,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: statusColor,
+                  ),
+                ),
               ),
             ],
           ),
-          const Divider(height: 24, color: Color(0xFFF3F4F6)),
+          const SizedBox(height: 6),
+          Text(
+            '${application.bankName} - ZK ${application.amount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}',
+            style: const TextStyle(
+              fontSize: 13,
+              color: Color(0xFF64748B),
+            ),
+          ),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(2),
+            child: LinearProgressIndicator(
+              value: application.progressPercentage,
+              backgroundColor: const Color(0xFFE2E8F0),
+              valueColor: AlwaysStoppedAnimation<Color>(statusColor),
+              minHeight: 4,
+            ),
+          ),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(emi, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                  const Text('Monthly EMI', style: TextStyle(fontSize: 10, color: AppColors.textSecondary)),
-                ],
-              ),
-               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(tenure, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                  const Text('Tenure', style: TextStyle(fontSize: 10, color: AppColors.textSecondary)),
-                ],
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // context.push('/loans/apply');
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0), // Compact
-                  minimumSize: const Size(0, 36),
+              Text(
+                'Ref: ${application.referenceNumber}',
+                style: const TextStyle(
+                  fontSize: 11,
+                  color: Color(0xFF94A3B8),
                 ),
-                child: const Text('Apply'),
-              )
+              ),
+              Text(
+                'Last update: ${application.lastUpdate.year}-${application.lastUpdate.month.toString().padLeft(2, '0')}-${application.lastUpdate.day.toString().padLeft(2, '0')}',
+                style: const TextStyle(
+                  fontSize: 11,
+                  color: Color(0xFF94A3B8),
+                ),
+              ),
             ],
-          )
+          ),
+          const SizedBox(height: AppDimensions.scrollBottomPadding),
         ],
+      ),
       ),
     );
   }

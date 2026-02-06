@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
-import 'package:go_router/go_router.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 
-class PartnerServicesGrid extends StatelessWidget {
-  const PartnerServicesGrid({super.key});
+class InsuranceServicesGrid extends StatelessWidget {
+  const InsuranceServicesGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,28 +22,25 @@ class PartnerServicesGrid extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         
-        _buildCategory('Customer Services', [
-          _ServiceItem('Onboarding', LucideIcons.user_plus, const Color(0xFF3B82F6)),
-          _ServiceItem('eKYC', LucideIcons.scan, const Color(0xFF3B82F6)),
-          _ServiceItem('Profile', LucideIcons.search, const Color(0xFF64748B)),
+        _buildCategory('Policy Services', [
+          _ServiceItem('New Policy', LucideIcons.file_plus, const Color(0xFF3B82F6)),
+          _ServiceItem('Renewals', LucideIcons.refresh_cw, const Color(0xFF22C55E)),
+          _ServiceItem('Policy Status', LucideIcons.search, const Color(0xFF64748B)),
         ]),
         
         const SizedBox(height: 32),
         
-        _buildCategory('Money Transfer', [
-          _ServiceItem('Top Up', LucideIcons.wallet, const Color(0xFF22C55E)),
-          _ServiceItem('Redeem', LucideIcons.credit_card, const Color(0xFF06B6D4)),
-          _ServiceItem('Deposit', LucideIcons.arrow_up_from_line, const Color(0xFF22C55E)),
-          _ServiceItem('Withdrawal', LucideIcons.arrow_down_to_line, const Color(0xFFEF4444)),
-          _ServiceItem('Transfer', LucideIcons.arrow_left_right, const Color(0xFFA855F7)),
+        _buildCategory('Claims & Support', [
+          _ServiceItem('File Claim', LucideIcons.file_text, const Color(0xFFF59E0B)),
+          _ServiceItem('Claim Status', LucideIcons.activity, const Color(0xFF06B6D4)),
+          _ServiceItem('Documents', LucideIcons.folder, const Color(0xFF8B5CF6)),
         ]),
         
         const SizedBox(height: 32),
         
-        _buildCategory('Loan Services', [
-          _ServiceItem('Apply Loan', LucideIcons.file_text, const Color(0xFFF59E0B), route: '/loans'),
-          _ServiceItem('Repay (Cust)', LucideIcons.calendar_plus, const Color(0xFFF97316)),
-          _ServiceItem('Repay (Acc)', LucideIcons.credit_card, const Color(0xFF06B6D4)),
+        _buildCategory('Premium & Payments', [
+          _ServiceItem('Pay Premium', LucideIcons.credit_card, const Color(0xFF22C55E)),
+          _ServiceItem('Payment History', LucideIcons.receipt, const Color(0xFF64748B)),
         ]),
       ],
     );
@@ -77,20 +73,16 @@ class _ServiceItem extends StatelessWidget {
   final String label;
   final IconData icon;
   final Color iconColor;
-  final String? route;
 
-  const _ServiceItem(this.label, this.icon, this.iconColor, {this.route});
+  const _ServiceItem(this.label, this.icon, this.iconColor);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: route != null ? () => context.push(route!) : null,
-      borderRadius: BorderRadius.circular(24),
-      child: SizedBox(
-        width: 80,
-        child: Column(
-          children: [
-            Container(
+    return SizedBox(
+      width: 80,
+      child: Column(
+        children: [
+          Container(
             width: AppDimensions.iconBoxSize,
             height: AppDimensions.iconBoxSize,
             decoration: BoxDecoration(
@@ -117,8 +109,7 @@ class _ServiceItem extends StatelessWidget {
               color: AppColors.textSecondary,
             ),
           ),
-          ],
-        ),
+        ],
       ),
     );
   }

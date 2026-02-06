@@ -17,6 +17,8 @@ import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/a
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/agent_insights.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/bank_partner_card.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/partner_services_grid.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/insurance_services_grid.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/mno_services_grid.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 import 'package:citizenone_app/features/dashboard/domain/entities/service_entity.dart';
 import 'package:go_router/go_router.dart';
@@ -56,6 +58,7 @@ class SuperHomeScreen extends ConsumerWidget {
                         BankPartnerCard(
                           partnerName: authState.selectedPartner!,
                           partnerIcon: authState.partnerIcon ?? LucideIcons.landmark,
+                          partnerType: authState.partnerType,
                           onSwitch: () => ref.read(authProvider.notifier).clearPartner(),
                         ),
                       ] else ...[
@@ -73,11 +76,17 @@ class SuperHomeScreen extends ConsumerWidget {
         ),
         
         if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
-           // Bucket-style services for selected partner
+           // Partner-specific services based on type
            SliverToBoxAdapter(
              child: Padding(
                padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 32),
-               child: const PartnerServicesGrid(),
+               child: authState.partnerType == 'Bank' 
+                 ? const PartnerServicesGrid()
+                 : authState.partnerType == 'Insurance'
+                   ? const InsuranceServicesGrid()
+                   : authState.partnerType == 'MNO'
+                     ? const MnoServicesGrid()
+                     : const PartnerServicesGrid(), // Default to bank services
              ),
            ),
         ] else ...[
@@ -155,7 +164,7 @@ class SuperHomeScreen extends ConsumerWidget {
              ),
           ),
         ],
-        const SliverToBoxAdapter(child: SizedBox(height: 100)), // Bottom padding
+        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.scrollBottomPadding)), // Bottom padding
       ],
     );
   }

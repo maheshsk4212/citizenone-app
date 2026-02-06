@@ -6,7 +6,11 @@ import 'package:citizenone_app/core/common/widgets/app_shell.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/super_home_screen.dart';
 // import 'package:citizenone_app/features/dashboard/presentation/screens/banking_dashboard_screen.dart';
 import 'package:citizenone_app/features/loans/presentation/screens/loans_dashboard_screen.dart';
+import 'package:citizenone_app/features/loans/presentation/screens/loan_marketplace_screen.dart';
+import 'package:citizenone_app/features/loans/presentation/screens/emi_calculator_screen.dart';
+import 'package:citizenone_app/features/loans/presentation/screens/loan_application_flow_screen.dart';
 import 'package:citizenone_app/features/loans/presentation/screens/loan_journey_screens.dart';
+import 'package:citizenone_app/features/loans/presentation/screens/loan_status_tracking_screen.dart';
 import 'package:citizenone_app/features/ai_assistant/presentation/screens/ai_assistant_screen.dart';
 import 'package:citizenone_app/features/services/presentation/screens/services_hub_screen.dart';
 import 'package:citizenone_app/features/services/presentation/screens/service_screens.dart';
@@ -87,7 +91,29 @@ final appRouter = GoRouter(
              ),
              GoRoute(
                path: 'status',
-                builder: (context, state) => const LoanStatusScreen(),
+               builder: (context, state) {
+                 final referenceId = state.uri.queryParameters['ref'];
+                 return LoanStatusTrackingScreen(referenceId: referenceId);
+               },
+             ),
+             GoRoute(
+               path: 'emi-calculator',
+                builder: (context, state) => const EmiCalculatorScreen(),
+             ),
+             GoRoute(
+               path: 'apply-flow',
+               builder: (context, state) {
+                 final loanType = state.uri.queryParameters['loanType'] ?? 'Personal Loan';
+                 final bankName = state.uri.queryParameters['bankName'];
+                 return LoanApplicationFlowScreen(
+                   loanType: loanType,
+                   bankName: bankName,
+                 );
+               },
+             ),
+             GoRoute(
+               path: 'personal',
+                builder: (context, state) => const LoanMarketplaceScreen(loanType: 'Personal Loan'),
              ),
            ]
         ),

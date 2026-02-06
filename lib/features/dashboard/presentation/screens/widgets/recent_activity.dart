@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
-import 'package:citizenone_app/core/design_system/tokens/typography.dart'; // Assume this exists or use defined styles
+import 'package:citizenone_app/core/design_system/tokens/typography.dart';
+import 'package:citizenone_app/core/common/widgets/section_header.dart';
 
 class RecentActivity extends StatelessWidget {
   const RecentActivity({super.key});
@@ -10,34 +11,10 @@ class RecentActivity extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              'RECENT ACTIVITY',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.2,
-                color: AppColors.textSecondary,
-              ),
-            ),
-            TextButton(
-              onPressed: () {},
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: const Row(
-                children: [
-                  Text('View All', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.primary)),
-                  SizedBox(width: 4),
-                  Icon(Icons.arrow_forward, size: 16, color: AppColors.primary),
-                ],
-              ),
-            ),
-          ],
+        SectionHeader(
+          title: 'Recent Activity',
+          actionLabel: 'View All',
+          onActionTap: () {},
         ),
         const SizedBox(height: 16),
         _buildPlaceholderRecentItem(

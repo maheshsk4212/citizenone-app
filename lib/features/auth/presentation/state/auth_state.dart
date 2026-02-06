@@ -7,6 +7,7 @@ class AuthState {
   final String workContext;
   final String? selectedPartner;
   final IconData? partnerIcon;
+  final String? partnerType; // 'Bank', 'Insurance', 'MNO'
 
   const AuthState({
     this.selectedRole = UserRole.citizen,
@@ -14,6 +15,7 @@ class AuthState {
     this.workContext = 'CitizenOne',
     this.selectedPartner,
     this.partnerIcon,
+    this.partnerType,
   });
 
   AuthState copyWith({
@@ -22,6 +24,7 @@ class AuthState {
     String? workContext,
     String? selectedPartner,
     IconData? partnerIcon,
+    String? partnerType,
     bool clearPartner = false,
   }) {
     return AuthState(
@@ -30,6 +33,7 @@ class AuthState {
       workContext: workContext ?? this.workContext,
       selectedPartner: clearPartner ? null : (selectedPartner ?? this.selectedPartner),
       partnerIcon: clearPartner ? null : (partnerIcon ?? this.partnerIcon),
+      partnerType: clearPartner ? null : (partnerType ?? this.partnerType),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
+import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/hero_card.dart'; // Reusing for consistency, or pass custom
 import 'package:flutter_lucide/flutter_lucide.dart';
 
@@ -105,7 +106,7 @@ class MiniServiceScaffold extends StatelessWidget {
               aiInsight!,
             ],
             
-            const SizedBox(height: 40),
+            const SizedBox(height: AppDimensions.scrollBottomPadding),
           ],
         ),
       ),

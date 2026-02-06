@@ -4,6 +4,7 @@ import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/core/design_system/tokens/typography.dart';
 import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 import 'package:citizenone_app/features/dashboard/domain/entities/service_entity.dart';
+import 'package:citizenone_app/core/common/widgets/press_scale_widget.dart';
 
 class ServiceCard extends StatelessWidget {
   final ServiceEntity service;
@@ -12,51 +13,48 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return PressScaleWidget(
+      onPressed: () {
         if (service.route.isNotEmpty) {
            context.push(service.route); 
         }
       },
-      child: Align(
-        alignment: Alignment.topLeft,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+             BoxShadow(
+               color: Colors.black.withOpacity(0.05),
+               blurRadius: 10,
+               offset: const Offset(0, 4),
+             )
+          ],
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start, // Top aligned to match QuickActions
-          crossAxisAlignment: CrossAxisAlignment.start, // Left aligned to match header
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          Container(
-            width: AppDimensions.iconBoxSize, // Standardized
-            height: AppDimensions.iconBoxSize,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24), // Squircle
-              border: Border.all(color: Colors.grey[100]!),
-              boxShadow: [
-                 BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 12, offset: const Offset(0, 4)),
-              ],
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: (service.color ?? AppColors.primary).withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(service.icon, color: service.color ?? AppColors.primary, size: 28),
             ),
-            child: Center(
-              child: Icon(
-                service.icon, 
-                size: AppDimensions.iconSize, 
-                color: service.color ?? AppColors.primary
+            const SizedBox(height: 12),
+            Text(
+              service.title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
               ),
             ),
-          ),
-          const SizedBox(height: AppDimensions.iconToLabelGap),
-          SizedBox(
-            width: AppDimensions.iconBoxSize, // Constrain width to ensure centering relative to icon
-            child: Text(
-              service.title,
-              style: AppTypography.gridItemLabel,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 }

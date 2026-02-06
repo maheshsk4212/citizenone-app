@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:go_router/go_router.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
+import 'package:citizenone_app/core/common/widgets/animated_input_wrapper.dart';
+import 'package:citizenone_app/core/common/widgets/press_scale_widget.dart';
+import 'package:citizenone_app/core/common/widgets/success_check_animation.dart';
 
 // --- Step 2: Eligibility Check ---
 class LoanEligibilityScreen extends StatefulWidget {
@@ -279,6 +282,8 @@ class LoanApplicationScreen extends StatefulWidget {
 
 class _LoanApplicationScreenState extends State<LoanApplicationScreen> {
   int _step = 0;
+  // Simulating focus for demo
+  int? _activeField;
 
   @override
   Widget build(BuildContext context) {
@@ -303,10 +308,18 @@ class _LoanApplicationScreenState extends State<LoanApplicationScreen> {
              child: Row(
                children: [
                  Expanded(
-                   child: ElevatedButton(
+                   child: PressScaleWidget(
                      onPressed: details.onStepContinue,
-                     style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary, padding: const EdgeInsets.symmetric(vertical: 16)),
-                     child: Text(_step == 2 ? 'Submit Application' : 'Continue', style: const TextStyle(color: Colors.white)),
+                     child: Container(
+                       height: 48, // Match standard button height
+                       decoration: BoxDecoration(
+                         color: AppColors.primary,
+                         borderRadius: BorderRadius.circular(12),
+                       ),
+                       child: Center(
+                         child: Text(_step == 2 ? 'Submit Application' : 'Continue', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                       ),
+                     ),
                    ),
                  ),
                  if (_step > 0) ...[
@@ -321,9 +334,21 @@ class _LoanApplicationScreenState extends State<LoanApplicationScreen> {
           Step(
             title: const Text('Personal'),
             content: Column(children: [
-              TextFormField(decoration: const InputDecoration(labelText: 'Full Name', border: OutlineInputBorder())),
+              AnimatedInputWrapper(
+                isActive: _activeField == 0,
+                child: Focus(
+                  onFocusChange: (f) => setState(() => _activeField = f ? 0 : null),
+                  child: TextFormField(decoration: const InputDecoration(labelText: 'Full Name', border: OutlineInputBorder())),
+                ),
+              ),
               const SizedBox(height: 16),
-              TextFormField(decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder())),
+               AnimatedInputWrapper(
+                isActive: _activeField == 1,
+                child: Focus(
+                  onFocusChange: (f) => setState(() => _activeField = f ? 1 : null),
+                  child: TextFormField(decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder())),
+                ),
+              ),
             ]),
             isActive: _step >= 0,
           ),
@@ -348,6 +373,7 @@ class _LoanApplicationScreenState extends State<LoanApplicationScreen> {
 }
 
 // --- Step 6: Status ---
+// --- Step 6: Status ---
 class LoanStatusScreen extends StatelessWidget {
   const LoanStatusScreen({super.key});
 
@@ -361,27 +387,25 @@ class LoanStatusScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFDCFCE7), // green-100
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(LucideIcons.check, size: 48, color: Color(0xFF15803D)),
-              ),
+              const SuccessCheckAnimation(size: 100),
               const SizedBox(height: 32),
               const Text('Application Submitted!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
               const SizedBox(height: 16),
               const Text('Your application ID is #CO-88291. We will update you shortly.', textAlign: TextAlign.center, style: TextStyle(color: AppColors.textSecondary)),
                const SizedBox(height: 48),
-               ElevatedButton(
+               PressScaleWidget(
                  onPressed: () => context.go('/home'),
-                 style: ElevatedButton.styleFrom(
-                   minimumSize: const Size(double.infinity, 56),
-                   backgroundColor: AppColors.primary,
-                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                 child: Container(
+                   width: double.infinity,
+                   height: 56,
+                   decoration: BoxDecoration(
+                     color: AppColors.primary,
+                     borderRadius: BorderRadius.circular(16),
+                   ),
+                   child: const Center(
+                     child: Text('Back to Home', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                   ),
                  ),
-                 child: const Text('Back to Home', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                )
             ],
           ),

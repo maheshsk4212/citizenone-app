@@ -17,10 +17,11 @@ class AuthNotifier extends Notifier<AuthState> {
     state = state.copyWith(workContext: context);
   }
 
-  void setPartner(String? name, IconData? icon) {
+  void setPartner(String? name, IconData? icon, String? type) {
     state = state.copyWith(
       selectedPartner: name,
       partnerIcon: icon,
+      partnerType: type,
       workContext: 'Partner', // Keep 'Partner' context to keep toggle active
     );
   }
