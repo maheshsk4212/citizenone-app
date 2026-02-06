@@ -12,6 +12,8 @@ import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/h
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/quick_actions.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/recent_activity.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/weather_widget.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/agent_task_alert.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/agent_insights.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 import 'package:citizenone_app/features/dashboard/domain/entities/service_entity.dart';
 import 'package:go_router/go_router.dart';
@@ -42,6 +44,10 @@ class SuperHomeScreen extends ConsumerWidget {
                     children: [
                       const SizedBox(height: 20),
                       HeroCard(role: role),
+                      if (role == UserRole.agent) ...[
+                        const SizedBox(height: 16),
+                        const AgentTaskAlert(),
+                      ],
                     ],
                 ),
               ),
@@ -102,6 +108,18 @@ class SuperHomeScreen extends ConsumerWidget {
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+        
+        if (role == UserRole.agent) ...[
+           // Agent Insights
+           SliverToBoxAdapter(
+             child: Padding(
+               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+               child: const AgentInsights(),
+             ),
+           ),
+           const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+        ],
+
         
         // Recent Activity (Bottom)
         SliverToBoxAdapter(

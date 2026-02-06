@@ -10,24 +10,31 @@ class HeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Agent Theme: Purple
+    final bool isAgent = role == UserRole.agent;
+    final Color primaryColor = isAgent ? const Color(0xFF9333EA) : const Color(0xFF4F46E5); // Purple vs Indigo
+    final List<Color> gradientColors = isAgent 
+        ? [const Color(0xFFA855F7), const Color(0xFF7E22CE)] // Purple 500-700
+        : [const Color(0xFFF0F4FF).withOpacity(0.9), const Color(0xFFE0E7FF).withOpacity(0.9)];
+    
+    // For text colors on colored background (Agent) vs light background (Citizen)
+    final Color textColor = isAgent ? Colors.white : const Color(0xFF1E1B4B);
+    final Color subTextColor = isAgent ? Colors.white.withOpacity(0.8) : const Color(0xFF6B7280);
+
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 800),
         child: Container(
-          // relative overflow-hidden border-none bg-indigo-50/80 ... shadow-sm ring-1 ring-inset ring-indigo-100
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                const Color(0xFFF0F4FF).withOpacity(0.9), // Very light indigo
-                const Color(0xFFE0E7FF).withOpacity(0.9), // Indigo 100
-              ],
+              colors: gradientColors,
             ),
-            borderRadius: BorderRadius.circular(24), // More rounded
+            borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF4F46E5).withOpacity(0.1),
+                color: primaryColor.withOpacity(0.3),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -36,7 +43,7 @@ class HeroCard extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: Stack(
             children: [
-              // Soft decorative background (Top Right)
+              // Decorative background
               Positioned(
                 top: -60,
                 right: -60,
@@ -44,16 +51,16 @@ class HeroCard extends StatelessWidget {
                   width: 200,
                   height: 200,
                   decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.4),
+                      color: Colors.white.withOpacity(isAgent ? 0.1 : 0.4),
                       shape: BoxShape.circle,
-                      boxShadow: const [
-                        BoxShadow(color: Colors.white, blurRadius: 40) // Glow
+                      boxShadow: [
+                        BoxShadow(color: Colors.white.withOpacity(isAgent ? 0.05 : 1.0), blurRadius: 40)
                       ]),
                 ),
               ),
 
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -66,87 +73,111 @@ class HeroCard extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFE0E7FF), // indigo-100
+                                color: isAgent ? Colors.white.withOpacity(0.2) : const Color(0xFFE0E7FF),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const Icon(LucideIcons.sparkles,
-                                  size: 16,
-                                  color: Color(0xFF4F46E5)), // indigo-600
+                              child: Icon(
+                                isAgent ? LucideIcons.zap : LucideIcons.sparkles,
+                                size: 16,
+                                color: isAgent ? Colors.white : const Color(0xFF4F46E5),
+                              ),
                             ),
                             const SizedBox(width: 8),
-                            const Text(
-                              'CITIZEN AI ALERT',
+                            Text(
+                              isAgent ? 'AGENT PERFORMANCE' : 'CITIZEN AI ALERT',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF1E1B4B), // indigo-950
+                                color: textColor,
                                 letterSpacing: 0.5,
                               ),
                             ),
                           ],
                         ),
-                        if (role == UserRole.agent)
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF4F46E5),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Text(
-                              'AGENT MODE',
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: isAgent ? Colors.white.withOpacity(0.2) : const Color(0xFFFEF2F2),
+                            borderRadius: BorderRadius.circular(20),
+                            border: isAgent ? null : Border.all(color: const Color(0xFFFECACA)),
+                          ),
+                          child: Text(
+                            isAgent ? 'Today' : 'Due tomorrow',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: isAgent ? Colors.white : const Color(0xFFDC2626),
                             ),
                           ),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 20),
 
                     // Role Specific Content
-                    if (role == UserRole.citizen) ...[
-                      // New Layout: Title row, Large Amount, Action Row
+                    if (isAgent) ...[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Electricity Bill Due',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF4B5563))), // Gray-600
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFFEF2F2), // red-50
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                  color: const Color(0xFFFECACA)), // red-200
-                            ),
-                            child: const Text('Due tomorrow',
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Commission',
+                                style: TextStyle(color: subTextColor, fontSize: 13, fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(height: 4),
+                              const Text(
+                                'ZK 450',
                                 style: TextStyle(
-                                    color: Color(0xFFDC2626),
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w700)),
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
+                          Container(width: 1, height: 40, color: Colors.white.withOpacity(0.2)),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Tasks',
+                                style: TextStyle(color: subTextColor, fontSize: 13, fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(height: 4),
+                              RichText(
+                                text: const TextSpan(
+                                  children: [
+                                    TextSpan(text: '3', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white)),
+                                    TextSpan(text: ' / 5', style: TextStyle(fontSize: 18, color: Colors.white70)),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 10), // Spacing
                         ],
                       ),
-                      const SizedBox(height: 12),
+                    ] else ...[
+                      // Citizen Layout
+                      const Text('Electricity Bill Due',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF4B5563))),
+                      const SizedBox(height: 8),
                       const Text('ZK 450.00',
                           style: TextStyle(
                               fontSize: 40,
                               fontWeight: FontWeight.w800,
                               color: Color(0xFF111827),
-                              letterSpacing: -1.0)), // Gray-900
+                              letterSpacing: -1.0)),
                       const SizedBox(height: 24),
                       Row(children: [
                         Expanded(
                             flex: 2,
-                            child: _buildActionButton(
-                                'Pay Now', LucideIcons.arrow_right)),
+                            child: _buildActionButton('Pay Now', LucideIcons.arrow_right)),
                         const SizedBox(width: 16),
                         const Expanded(
                           flex: 1,
@@ -159,22 +190,7 @@ class HeroCard extends StatelessWidget {
                           ),
                         )
                       ]),
-                    ] else if (role == UserRole.agent) ...[
-                      const Text('3 Tasks Pending',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.textPrimary)),
-                      const SizedBox(height: 8),
-                      const Text('2 new onboardings • 1 collection nearby',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: AppColors.textSecondary,
-                              fontWeight: FontWeight.w500)),
-                      const SizedBox(height: 16),
-                      _buildActionButton('View Tasks', LucideIcons.arrow_right),
-                    ]
-                    // Add Farmer logic if needed later
+                    ],
                   ],
                 ),
               ),
