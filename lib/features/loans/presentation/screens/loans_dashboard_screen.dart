@@ -568,7 +568,6 @@ class _ApplicationCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppDimensions.scrollBottomPadding),
         ],
       ),
       ),

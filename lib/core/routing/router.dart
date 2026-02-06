@@ -89,28 +89,7 @@ final appRouter = GoRouter(
                path: 'apply',
                 builder: (context, state) => const LoanApplicationScreen(),
              ),
-             GoRoute(
-               path: 'status',
-               builder: (context, state) {
-                 final referenceId = state.uri.queryParameters['ref'];
-                 return LoanStatusTrackingScreen(referenceId: referenceId);
-               },
-             ),
-             GoRoute(
-               path: 'emi-calculator',
-                builder: (context, state) => const EmiCalculatorScreen(),
-             ),
-             GoRoute(
-               path: 'apply-flow',
-               builder: (context, state) {
-                 final loanType = state.uri.queryParameters['loanType'] ?? 'Personal Loan';
-                 final bankName = state.uri.queryParameters['bankName'];
-                 return LoanApplicationFlowScreen(
-                   loanType: loanType,
-                   bankName: bankName,
-                 );
-               },
-             ),
+
              GoRoute(
                path: 'personal',
                 builder: (context, state) => const LoanMarketplaceScreen(loanType: 'Personal Loan'),
@@ -191,5 +170,29 @@ final appRouter = GoRouter(
         ),
       ],
     ),
+    
+    // --- Fullscreen Routes (No Shell) ---
+    GoRoute(
+       path: '/loans/apply-flow',
+       builder: (context, state) {
+         final loanType = state.uri.queryParameters['loanType'] ?? 'Personal Loan';
+         final bankName = state.uri.queryParameters['bankName'];
+         return LoanApplicationFlowScreen(
+           loanType: loanType,
+           bankName: bankName,
+         );
+       },
+     ),
+     GoRoute(
+       path: '/loans/status',
+       builder: (context, state) {
+         final referenceId = state.uri.queryParameters['ref'];
+         return LoanStatusTrackingScreen(referenceId: referenceId);
+       },
+     ),
+     GoRoute(
+       path: '/loans/emi-calculator',
+        builder: (context, state) => const EmiCalculatorScreen(),
+     ),
   ],
 );
