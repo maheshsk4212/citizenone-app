@@ -138,7 +138,7 @@ class SuperHomeScreen extends ConsumerWidget {
         ],
 
         // Services section (Desktop starts here in slivers, Mobile continues)
-        SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 48 : AppDimensions.sectionVerticalSpacing)),
+        SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 32 : AppDimensions.sectionVerticalSpacing)),
         
         // Services Section
         SliverToBoxAdapter(
@@ -164,14 +164,14 @@ class SuperHomeScreen extends ConsumerWidget {
                 childCount: services.length,
               ),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: ResponsiveLayout.isDesktop(context) ? 200 : 110,
+                maxCrossAxisExtent: ResponsiveLayout.isDesktop(context) ? 140 : 110,
                 mainAxisSpacing: ResponsiveLayout.isDesktop(context) ? 32 : 24,
                 crossAxisSpacing: 16,
-                mainAxisExtent: ResponsiveLayout.isDesktop(context) ? 160 : 110,
+                mainAxisExtent: ResponsiveLayout.isDesktop(context) ? 120 : 110,
               ),
             ),
           ),
-          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 40 : AppDimensions.sectionVerticalSpacing)),
+          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 32 : AppDimensions.sectionVerticalSpacing)),
           
           if (role == UserRole.agent) ...[
              // Agent Insights
