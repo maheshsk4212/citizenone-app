@@ -22,13 +22,14 @@ class AuthState {
     String? workContext,
     String? selectedPartner,
     IconData? partnerIcon,
+    bool clearPartner = false,
   }) {
     return AuthState(
       selectedRole: selectedRole ?? this.selectedRole,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       workContext: workContext ?? this.workContext,
-      selectedPartner: selectedPartner ?? this.selectedPartner,
-      partnerIcon: partnerIcon ?? this.partnerIcon,
+      selectedPartner: clearPartner ? null : (selectedPartner ?? this.selectedPartner),
+      partnerIcon: clearPartner ? null : (partnerIcon ?? this.partnerIcon),
     );
   }
 }

@@ -35,7 +35,7 @@ class SuperHomeScreen extends ConsumerWidget {
     
     double horizontalPadding = ResponsiveLayout.isDesktop(context) ? 64 : 20;
 
-    if (workContext == 'Partner') { // Added conditional rendering
+    if (workContext == 'Partner' && authState.selectedPartner == null) { // Show selection if no partner picked
       return const PartnerSelectionScreen();
     }
 
@@ -52,11 +52,11 @@ class SuperHomeScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
-                      if (role == UserRole.agent && authState.selectedPartner != null) ...[
+                      if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
                         BankPartnerCard(
                           partnerName: authState.selectedPartner!,
                           partnerIcon: authState.partnerIcon ?? LucideIcons.landmark,
-                          onSwitch: () => ref.read(authProvider.notifier).setWorkContext('Partner'),
+                          onSwitch: () => ref.read(authProvider.notifier).clearPartner(),
                         ),
                       ] else ...[
                         HeroCard(role: role),
@@ -72,7 +72,7 @@ class SuperHomeScreen extends ConsumerWidget {
           ),
         ),
         
-        if (role == UserRole.agent && authState.selectedPartner != null) ...[
+        if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
            // Bucket-style services for selected partner
            SliverToBoxAdapter(
              child: Padding(

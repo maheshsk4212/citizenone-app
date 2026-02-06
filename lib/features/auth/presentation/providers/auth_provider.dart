@@ -21,7 +21,14 @@ class AuthNotifier extends Notifier<AuthState> {
     state = state.copyWith(
       selectedPartner: name,
       partnerIcon: icon,
-      workContext: 'Agent', // Switch back to Agent context after selection
+      workContext: 'Partner', // Keep 'Partner' context to keep toggle active
+    );
+  }
+
+  void clearPartner() {
+    state = state.copyWith(
+      clearPartner: true,
+      workContext: 'Partner',
     );
   }
 
