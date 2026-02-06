@@ -19,41 +19,50 @@ class ServiceCard extends StatelessWidget {
            context.push(service.route); 
         }
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-             BoxShadow(
-               color: Colors.black.withOpacity(0.05),
-               blurRadius: 10,
-               offset: const Offset(0, 4),
-             )
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: (service.color ?? AppColors.primary).withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(service.icon, color: service.color ?? AppColors.primary, size: 28),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: AppDimensions.iconBoxSize,
+            height: AppDimensions.iconBoxSize,
+            padding: EdgeInsets.zero, // Fixed size handles it
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                 BoxShadow(
+                   color: Colors.black.withOpacity(0.05),
+                   blurRadius: 10,
+                   offset: const Offset(0, 4),
+                 )
+              ],
             ),
-            const SizedBox(height: 12),
-            Text(
-              service.title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+            child: Center(
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: (service.color ?? AppColors.primary).withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(service.icon, color: service.color ?? AppColors.primary, size: 24),
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            service.title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+              height: 1.1,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }
