@@ -46,53 +46,59 @@ class SuperHomeScreen extends ConsumerWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: ResponsiveLayout.isDesktop(context)
-                ? Column(
-                    children: [
-                      const SizedBox(height: 24),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final bool useSideBySide = ResponsiveLayout.isDesktop(context) && constraints.maxWidth > 1000;
+                
+                return useSideBySide
+                    ? Column(
                         children: [
-                          Expanded(
-                            flex: 5,
-                            child: HeroCard(role: role),
-                          ),
-                          const SizedBox(width: 32),
-                          Expanded(
-                            flex: 4,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SectionHeader(title: 'Quick Actions'),
-                                const SizedBox(height: 16),
-                                QuickActions(role: role),
-                              ],
-                            ),
+                          const SizedBox(height: 24),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: HeroCard(role: role),
+                              ),
+                              const SizedBox(width: 32),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SectionHeader(title: 'Quick Actions'),
+                                    const SizedBox(height: 16),
+                                    QuickActions(role: role),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
-                      ),
-                    ],
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 20),
-                      if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
-                        BankPartnerCard(
-                          partnerName: authState.selectedPartner!,
-                          partnerIcon: authState.partnerIcon ?? LucideIcons.landmark,
-                          partnerType: authState.partnerType,
-                          onSwitch: () => ref.read(authProvider.notifier).clearPartner(),
-                        ),
-                      ] else ...[
-                        HeroCard(role: role),
-                      ],
-                      if (role == UserRole.agent && authState.selectedPartner == null) ...[
-                        const SizedBox(height: 16),
-                        const AgentTaskAlert(),
-                      ],
-                    ],
-                  ),
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 20),
+                          if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
+                            BankPartnerCard(
+                              partnerName: authState.selectedPartner!,
+                              partnerIcon: authState.partnerIcon ?? LucideIcons.landmark,
+                              partnerType: authState.partnerType,
+                              onSwitch: () => ref.read(authProvider.notifier).clearPartner(),
+                            ),
+                          ] else ...[
+                            HeroCard(role: role),
+                          ],
+                          if (role == UserRole.agent && authState.selectedPartner == null) ...[
+                            const SizedBox(height: 16),
+                            const AgentTaskAlert(),
+                          ],
+                        ],
+                      );
+              },
+            ),
           ),
         ),
         

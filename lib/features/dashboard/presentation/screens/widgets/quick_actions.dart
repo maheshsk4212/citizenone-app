@@ -47,17 +47,11 @@ class QuickActions extends StatelessWidget {
     List<_ActionItem> actions = _getActions(role);
     
     if (isWeb) {
-       return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: actions.asMap().entries.map((entry) {
-             int idx = entry.key;
-             _ActionItem action = entry.value;
-             return Padding(
-               padding: EdgeInsets.only(right: idx < actions.length - 1 ? 48.0 : 0), // Increased gap
-               child: _buildActionItem(context, action),
-             );
-          }).toList(),
+       return Wrap(
+          spacing: 32,
+          runSpacing: 24,
+          alignment: WrapAlignment.start,
+          children: actions.map((action) => _buildActionItem(context, action)).toList(),
        );
     }
 

@@ -80,13 +80,14 @@ class _DesktopLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24), // Reduced vertical padding
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20), // Reduced padding
       child: Row(
         children: [
           Expanded(
-            flex: 3,
+            flex: 4, // Increased emphasis on main value
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 _HeaderRow(isAgent: isAgent),
                 const SizedBox(height: 12),
@@ -96,12 +97,12 @@ class _DesktopLayout extends StatelessWidget {
           ),
           Container(
             width: 1,
-            height: 80,
+            height: 60,
             color: isAgent ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.05),
-            margin: const EdgeInsets.symmetric(horizontal: 24),
+            margin: const EdgeInsets.symmetric(horizontal: 20),
           ),
-          Expanded(
-            flex: 2,
+          Flexible( // Changed from Expanded to Flexible
+            flex: 3,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -109,7 +110,13 @@ class _DesktopLayout extends StatelessWidget {
                 _ActionButtons(isAgent: isAgent, fullWidth: false),
                  const SizedBox(height: 12),
                  if (!isAgent)
-                   Text('Due in 5 days', style: AppTypography.caption(context).copyWith(color: AppColors.textSecondary)),
+                   Text('Due in 5 days', 
+                     style: AppTypography.caption(context).copyWith(
+                       color: AppColors.textSecondary,
+                       fontSize: 11
+                     ),
+                     overflow: TextOverflow.ellipsis,
+                   ),
               ],
             ),
           ),
