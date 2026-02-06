@@ -46,14 +46,35 @@ class SuperHomeScreen extends ConsumerWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: ResponsiveLayout.isDesktop(context) ? double.infinity : 800
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            child: ResponsiveLayout.isDesktop(context)
+                ? Column(
+                    children: [
+                      const SizedBox(height: 24),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 5,
+                            child: HeroCard(role: role),
+                          ),
+                          const SizedBox(width: 32),
+                          Expanded(
+                            flex: 4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SectionHeader(title: 'Quick Actions'),
+                                const SizedBox(height: 16),
+                                QuickActions(role: role),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
                       if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
@@ -71,9 +92,7 @@ class SuperHomeScreen extends ConsumerWidget {
                         const AgentTaskAlert(),
                       ],
                     ],
-                ),
-              ),
-            ),
+                  ),
           ),
         ),
         
@@ -91,10 +110,10 @@ class SuperHomeScreen extends ConsumerWidget {
                      : const PartnerServicesGrid(), // Default to bank services
              ),
            ),
-        ] else ...[
-          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 24 : AppDimensions.sectionVerticalSpacing)),
+        ] else if (!ResponsiveLayout.isDesktop(context)) ...[
+          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
           
-          // Quick Actions Section
+          // Quick Actions Section (Mobile only here, Desktop has it in the Hero Row)
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
@@ -102,7 +121,7 @@ class SuperHomeScreen extends ConsumerWidget {
             ),
           ),
           
-          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 12 : AppDimensions.headerToContentSpacing)),
+          SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
           
           SliverToBoxAdapter(
             child: Padding(
@@ -110,20 +129,22 @@ class SuperHomeScreen extends ConsumerWidget {
               child: QuickActions(role: role),
             ),
           ),
-          
-          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 32 : AppDimensions.sectionVerticalSpacing)),
-          
-          // Services Section
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-              child: SectionHeader(
-                title: 'All Services',
-                actionLabel: 'View All',
-                onActionTap: () => context.push('/services'),
-              ),
+        ],
+
+        // Services section (Desktop starts here in slivers, Mobile continues)
+        SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 48 : AppDimensions.sectionVerticalSpacing)),
+        
+        // Services Section
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: SectionHeader(
+              title: 'All Services',
+              actionLabel: 'View All',
+              onActionTap: () => context.push('/services'),
             ),
           ),
+        ),
           
           SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 16 : AppDimensions.headerToContentSpacing)),
           
@@ -165,9 +186,8 @@ class SuperHomeScreen extends ConsumerWidget {
                child: const RecentActivity(),
              ),
           ),
+          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.scrollBottomPadding)), // Bottom padding
         ],
-        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.scrollBottomPadding)), // Bottom padding
-      ],
-    );
+      );
   }
 }
