@@ -60,11 +60,36 @@ class ProfileScreen extends ConsumerWidget {
             Text(
               'Gold Member • Lusaka',
               style: TextStyle(
-                fontSize: 13, // Reduced to 13px
+                fontSize: 13, 
                 color: Colors.grey[600],
                 fontWeight: FontWeight.w500,
               ),
             ),
+            if (authState.selectedPartner != null) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF3F4F6),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(authState.partnerIcon ?? LucideIcons.landmark, size: 14, color: AppColors.primary),
+                    const SizedBox(width: 8),
+                    Text(
+                      authState.selectedPartner!,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
             const SizedBox(height: 48),
             
             // Sections

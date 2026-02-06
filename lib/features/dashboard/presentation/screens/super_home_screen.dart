@@ -12,8 +12,10 @@ import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/h
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/quick_actions.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/recent_activity.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/weather_widget.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/partner_selection_screen.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/agent_task_alert.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/agent_insights.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/bank_partner_card.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 import 'package:citizenone_app/features/dashboard/domain/entities/service_entity.dart';
 import 'package:go_router/go_router.dart';
@@ -25,10 +27,16 @@ class SuperHomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final role = ref.watch(authProvider).selectedRole;
+    final authState = ref.watch(authProvider);
+    final role = authState.selectedRole;
+    final workContext = authState.workContext; 
     final services = ref.watch(servicesProvider);
     
     double horizontalPadding = ResponsiveLayout.isDesktop(context) ? 64 : 20;
+
+    if (workContext == 'Partner') { // Added conditional rendering
+      return const PartnerSelectionScreen();
+    }
 
     return CustomScrollView(
       slivers: [
@@ -43,7 +51,15 @@ class SuperHomeScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
-                      HeroCard(role: role),
+                      if (role == UserRole.agent && authState.selectedPartner != null) ...[
+                        BankPartnerCard(
+                          partnerName: authState.selectedPartner!,
+                          partnerIcon: authState.partnerIcon ?? LucideIcons.landmark,
+                          onSwitch: () => ref.read(authProvider.notifier).setWorkContext('Partner'),
+                        ),
+                      ] else ...[
+                        HeroCard(role: role),
+                      ],
                       if (role == UserRole.agent) ...[
                         const SizedBox(height: 16),
                         const AgentTaskAlert(),

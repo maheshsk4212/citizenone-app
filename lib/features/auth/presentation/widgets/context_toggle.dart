@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
-// Needs provider to set context
+import 'package:citizenone_app/features/auth/presentation/providers/auth_provider.dart';
 // Assuming AuthProvider manages workContext or we need a new provider?
 // The backup uses useRole(). workContext is part of role context.
 // In our Flutter app, AuthState has selectedRole. We might need to add workContext to AuthState.
@@ -12,9 +12,7 @@ class ContextToggle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // For now, local state or mocked, as AuthState only has role.
-    // TODO: Add workContext to AuthState
-    const activeContext = 'CitizenOne'; // Mocked for UI implementation
+    final activeContext = ref.watch(authProvider).workContext;
 
     return Container(
       padding: const EdgeInsets.all(4),
@@ -26,8 +24,18 @@ class ContextToggle extends ConsumerWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildOption('CitizenOne', LucideIcons.users, activeContext == 'CitizenOne', () {}),
-          _buildOption('Partner', LucideIcons.briefcase, activeContext == 'Partner', () {}),
+          _buildOption(
+            'CitizenOne', 
+            LucideIcons.users, 
+            activeContext == 'CitizenOne', 
+            () => ref.read(authProvider.notifier).setWorkContext('CitizenOne')
+          ),
+          _buildOption(
+            'Partner', 
+            LucideIcons.briefcase, 
+            activeContext == 'Partner', 
+            () => ref.read(authProvider.notifier).setWorkContext('Partner')
+          ),
         ],
       ),
     );

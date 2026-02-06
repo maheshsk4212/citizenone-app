@@ -12,6 +12,18 @@ class AuthNotifier extends Notifier<AuthState> {
     state = state.copyWith(selectedRole: role);
   }
 
+  void setWorkContext(String context) {
+    state = state.copyWith(workContext: context);
+  }
+
+  void setPartner(String? name, IconData? icon) {
+    state = state.copyWith(
+      selectedPartner: name,
+      partnerIcon: icon,
+      workContext: 'Agent', // Switch back to Agent context after selection
+    );
+  }
+
   void login() {
     state = state.copyWith(isAuthenticated: true);
   }
