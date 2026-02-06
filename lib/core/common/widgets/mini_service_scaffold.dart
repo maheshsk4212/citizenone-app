@@ -119,10 +119,14 @@ class MiniServiceScaffold extends StatelessWidget {
           width: 56,
           height: 56,
           decoration: BoxDecoration(
-            color: action.color ?? AppColors.primary,
+            color: action.backgroundColor ?? action.color ?? AppColors.primary,
             shape: BoxShape.circle,
           ),
-          child: Icon(action.icon, color: Colors.white, size: 24),
+          child: Icon(
+            action.icon, 
+            color: action.iconColor ?? Colors.white, 
+            size: 24
+          ),
         ),
         const SizedBox(height: 8),
         Text(
@@ -181,10 +185,19 @@ class MiniServiceScaffold extends StatelessWidget {
 class QuickActionItem {
   final IconData icon;
   final String label;
-  final Color? color;
+  final Color? color; // Legacy support: used as background if backgroundColor not provided
+  final Color? backgroundColor;
+  final Color? iconColor;
   final VoidCallback? onTap;
 
-  QuickActionItem({required this.icon, required this.label, this.color, this.onTap});
+  QuickActionItem({
+    required this.icon, 
+    required this.label, 
+    this.color, 
+    this.backgroundColor,
+    this.iconColor,
+    this.onTap,
+  });
 }
 
 class ServiceListItem {

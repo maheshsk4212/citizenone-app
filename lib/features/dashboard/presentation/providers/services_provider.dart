@@ -10,6 +10,46 @@ final servicesProvider = Provider<List<ServiceEntity>>((ref) {
 
   final allServices = [
     const ServiceEntity(
+      id: 'agri',
+      title: 'Agri Services',
+      description: 'Farming tools',
+      icon: LucideIcons.sprout,
+      type: ServiceType.utilities,
+      availableTo: [UserRole.citizen],
+      route: '/services/agri',
+      color: Color(0xFF16A34A), // Green
+    ),
+    const ServiceEntity(
+      id: 'logistics',
+      title: 'Logistics',
+      description: 'Ship & Track',
+      icon: LucideIcons.truck,
+      type: ServiceType.utilities,
+      availableTo: [UserRole.citizen, UserRole.agent],
+      route: '/services/logistics',
+      color: Color(0xFFEA580C), // Orange
+    ),
+    const ServiceEntity(
+      id: 'sme',
+      title: 'SME Services',
+      description: 'Business tools',
+      icon: LucideIcons.briefcase,
+      type: ServiceType.banking,
+      availableTo: [UserRole.citizen, UserRole.agent],
+      route: '/services/sme',
+      color: Color(0xFF4F46E5), // Indigo
+    ),
+    const ServiceEntity(
+      id: 'market',
+      title: 'Marketplace',
+      description: 'Buy & Sell',
+      icon: LucideIcons.store,
+      type: ServiceType.utilities, // or commercial?
+      availableTo: [UserRole.citizen],
+      route: '/services/market',
+      color: Color(0xFFDB2777), // Pink
+    ),
+    const ServiceEntity(
       id: 'wealth',
       title: 'Wealth',
       description: 'Wealth',

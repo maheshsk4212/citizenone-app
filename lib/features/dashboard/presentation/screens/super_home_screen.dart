@@ -95,9 +95,9 @@ class SuperHomeScreen extends ConsumerWidget {
             ),
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 110,
-              mainAxisSpacing: ResponsiveLayout.isDesktop(context) ? 16 : 4,
+              mainAxisSpacing: 24,
               crossAxisSpacing: 16,
-              mainAxisExtent: 140,
+              mainAxisExtent: 110,
             ),
           ),
         ),

@@ -16,6 +16,15 @@ import 'package:citizenone_app/features/dashboard/presentation/screens/mini_serv
 import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/health_ezy_screen.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/wealth_management_screen.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/bill_pay_screen.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/agri_service_screen.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/logistics_service_screen.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/sme_service_screen.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/marketplace_service_screen.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/insurance_screen.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/govt_services_screen.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/common_services_screen.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/banking_screen.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/mobile_recharge_screen.dart';
 import 'package:citizenone_app/core/common/widgets/service_placeholder_screen.dart';
 
 final appRouter = GoRouter(
@@ -108,66 +117,31 @@ final appRouter = GoRouter(
         ),
         GoRoute(
           path: '/services/agri',
-          builder: (context, state) => const GenericServiceScreen(
-            title: 'Agri Services', 
-            heroTitle: 'Farm Connect', 
-            heroSubtitle: 'Market prices and crop advisory', 
-            themeColor: Color(0xFF16A34A) // green-600
-          ),
+          builder: (context, state) => const AgriServiceScreen(),
         ),
         GoRoute(
           path: '/services/logistics',
-          builder: (context, state) => const GenericServiceScreen(
-            title: 'Logistics', 
-            heroTitle: 'Track & Ship', 
-            heroSubtitle: 'Reliable delivery network', 
-            themeColor: Color(0xFFEA580C) // orange-600
-          ),
+          builder: (context, state) => const LogisticsServiceScreen(),
         ),
         GoRoute(
           path: '/services/sme',
-          builder: (context, state) => const GenericServiceScreen(
-            title: 'SME Services', 
-            heroTitle: 'Business Hub', 
-            heroSubtitle: 'Tools for your enterprise', 
-            themeColor: Color(0xFF2563EB) // blue-600
-          ),
+          builder: (context, state) => const SmeServiceScreen(),
         ),
         GoRoute(
           path: '/services/market',
-           builder: (context, state) => const GenericServiceScreen(
-             title: 'Marketplace', 
-             heroTitle: 'Shop Local', 
-             heroSubtitle: 'Discover products near you', 
-             themeColor: Color(0xFFDB2777) // pink-600
-           ),
+           builder: (context, state) => const MarketplaceServiceScreen(),
         ),
         GoRoute(
           path: '/services/insurance',
-           builder: (context, state) => const GenericServiceScreen(
-             title: 'Insurance', 
-             heroTitle: 'Protection Plans', 
-             heroSubtitle: 'Life, Auto & Health Coverage', 
-             themeColor: Color(0xFFEF4444) // red-500
-           ),
+           builder: (context, state) => const InsuranceScreen(),
         ),
         GoRoute(
           path: '/services/gov',
-           builder: (context, state) => const GenericServiceScreen(
-             title: 'Gov Services', 
-             heroTitle: 'Citizen Portal', 
-             heroSubtitle: 'Access public services easily', 
-             themeColor: Color(0xFF0D9488) // teal-600
-           ),
+           builder: (context, state) => const GovtServicesScreen(),
         ),
         GoRoute(
           path: '/services/common',
-           builder: (context, state) => const GenericServiceScreen(
-             title: 'Common Services', 
-             heroTitle: 'Utility Hub', 
-             heroSubtitle: 'Everyday essential services', 
-             themeColor: Color(0xFF4F46E5) // indigo-600
-           ),
+           builder: (context, state) => const CommonServicesScreen(),
         ),
         GoRoute(
           path: '/services/wealth',
@@ -183,21 +157,11 @@ final appRouter = GoRouter(
         ),
         GoRoute(
           path: '/services/mobile',
-           builder: (context, state) => const GenericServiceScreen(
-             title: 'Mobile Plans', 
-             heroTitle: 'Recharge & Data', 
-             heroSubtitle: 'Stay connected always', 
-             themeColor: Color(0xFF9333EA) // purple-600
-           ),
+           builder: (context, state) => const MobileRechargeScreen(),
         ),
         GoRoute(
           path: '/services/banking',
-          builder: (context, state) => const GenericServiceScreen(
-             title: 'Banking', 
-             heroTitle: 'My Bank', 
-             heroSubtitle: 'Secure digital banking', 
-             themeColor: Color(0xFF1E40AF) // blue-800
-           ),
+          builder: (context, state) => const BankingScreen(),
         ),
       ],
     ),

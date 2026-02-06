@@ -40,13 +40,15 @@ class ServicesHubScreen extends StatelessWidget {
                       crossAxisCount = 8;
                     }
 
-                    return GridView.count(
+                    return GridView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 24,
-                      childAspectRatio: 0.75, // Adjusted to be slightly less tall relative to width
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: crossAxisCount,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 24,
+                        mainAxisExtent: 110,
+                      ),
                       children: [
                         _ServiceItem(
                           title: 'Wealth',

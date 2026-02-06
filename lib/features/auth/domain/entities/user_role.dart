@@ -1,8 +1,7 @@
 enum UserRole {
   citizen,
   agent,
-  farmer, // Added farmer role
-  admin;
+  farmer; // Added farmer role
 
   String get displayName {
     switch (this) {
@@ -12,8 +11,7 @@ enum UserRole {
         return 'Agent';
       case UserRole.farmer:
         return 'Farmer';
-      case UserRole.admin:
-        return 'Admin';
+
     }
   }
 
