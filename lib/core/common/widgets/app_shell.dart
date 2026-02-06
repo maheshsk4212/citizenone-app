@@ -174,19 +174,29 @@ class AppShell extends ConsumerWidget {
 
   Widget _buildSideNavRail(BuildContext context, String currentLocation, WidgetRef ref, UserRole role) {
     return Container(
-      width: 280,
+      width: 260, // Slightly reduced per best practices
       color: Colors.white,
       child: Column(
         children: [
           const SizedBox(height: 32),
           // App Logo or Title
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Row(
               children: [
-                Icon(Icons.shield, size: 32, color: AppColors.primary),
-                SizedBox(width: 12),
-                Text('Citizen One', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.shield, size: 24, color: AppColors.primary),
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  'Citizen One', 
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, letterSpacing: -0.5)
+                ),
               ],
             ),
           ),
@@ -199,9 +209,18 @@ class AppShell extends ConsumerWidget {
           
           const Spacer(),
           // Logout or Settings
-          const Padding(
-            padding: EdgeInsets.all(24.0),
-            child: Text('v1.0.0', style: TextStyle(color: Colors.grey)),
+          Divider(color: Colors.grey.withValues(alpha: 0.1)),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Row(
+              children: [
+                Icon(Icons.settings_outlined, size: 20, color: AppColors.textSecondary),
+                const SizedBox(width: 8),
+                Text('Settings', style: TextStyle(color: AppColors.textSecondary, fontSize: 13, fontWeight: FontWeight.w500)),
+                const Spacer(),
+                Text('v1.0.0', style: TextStyle(color: AppColors.textTertiary, fontSize: 11)),
+              ],
+            ),
           )
         ],
       ),
@@ -315,35 +334,53 @@ class _SideNavItem extends StatelessWidget {
   final bool isActive;
   final VoidCallback onTap;
 
-  const _SideNavItem({required this.icon, required this.label, required this.isActive, required this.onTap});
+  const _SideNavItem({
+    required this.icon,
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: isActive 
-          ? const Border(left: BorderSide(color: AppColors.primary, width: 3))
-          : null,
-      ),
-      child: ListTile(
-        leading: Icon(
-          icon, 
-          color: isActive ? AppColors.primary : AppColors.textMain.withOpacity(0.6),
-          size: isActive ? 26 : 24,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(8),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          hoverColor: AppColors.primary.withValues(alpha: 0.05),
+          child: Container(
+            decoration: BoxDecoration(
+              color: isActive ? AppColors.primary.withValues(alpha: 0.08) : Colors.transparent,
+              borderRadius: BorderRadius.circular(8),
+              border: isActive 
+                ? const Border(left: BorderSide(color: AppColors.primary, width: 4))
+                : const Border(left: BorderSide(color: Colors.transparent, width: 4)),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                Icon(
+                  icon,
+                  color: isActive ? AppColors.primary : AppColors.textSecondary,
+                  size: 24,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: isActive ? AppColors.primary : AppColors.textMain,
+                    fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        title: Text(
-          label, 
-          style: TextStyle(
-            color: isActive ? AppColors.primary : AppColors.textMain.withOpacity(0.8), 
-            fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-            fontSize: 14,
-          )
-        ),
-        selected: isActive,
-        onTap: onTap,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)), // Square edges for border match
-        tileColor: isActive ? AppColors.primary.withOpacity(0.04) : null, // Much subtler bg
       ),
     );
   }

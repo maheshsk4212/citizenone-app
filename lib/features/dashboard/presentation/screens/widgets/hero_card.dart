@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
+import 'package:citizenone_app/core/design_system/responsive.dart';
+import 'package:citizenone_app/core/design_system/tokens/typography.dart';
 
 class HeroCard extends StatelessWidget {
   final UserRole role;
@@ -12,18 +14,13 @@ class HeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // Agent Theme: Purple
     final bool isAgent = role == UserRole.agent;
-    final Color primaryColor = isAgent ? const Color(0xFF9333EA) : const Color(0xFF4F46E5); // Purple vs Indigo
-    final List<Color> gradientColors = isAgent 
-        ? [const Color(0xFFA855F7), const Color(0xFF7E22CE)] // Purple 500-700
-        : [const Color(0xFFF0F4FF).withOpacity(0.9), const Color(0xFFE0E7FF).withOpacity(0.9)];
-    
-    // For text colors on colored background (Agent) vs light background (Citizen)
-    final Color textColor = isAgent ? Colors.white : const Color(0xFF1E1B4B);
-    final Color subTextColor = isAgent ? Colors.white.withOpacity(0.8) : const Color(0xFF6B7280);
+    final List<Color> gradientColors = isAgent
+        ? [const Color(0xFFA855F7), const Color(0xFF7E22CE)] // Purple
+        : [const Color(0xFFEFF6FF), const Color(0xFFDBEAFE)]; // Blue-50
 
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 800),
+        constraints: BoxConstraints(maxWidth: ResponsiveLayout.isDesktop(context) ? double.infinity : 800),
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -34,191 +31,237 @@ class HeroCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: primaryColor.withOpacity(0.3),
+                color: isAgent ? Colors.purple.withOpacity(0.3) : Colors.blue.withOpacity(0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
             ],
           ),
           clipBehavior: Clip.antiAlias,
-          child: Stack(
-            children: [
-              // Decorative background
-              Positioned(
-                top: -60,
-                right: -60,
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(isAgent ? 0.1 : 0.4),
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(color: Colors.white.withOpacity(isAgent ? 0.05 : 1.0), blurRadius: 40)
-                      ]),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: isAgent ? Colors.white.withOpacity(0.2) : const Color(0xFFE0E7FF),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Icon(
-                                isAgent ? LucideIcons.zap : LucideIcons.sparkles,
-                                size: 16,
-                                color: isAgent ? Colors.white : const Color(0xFF4F46E5),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              isAgent ? 'AGENT PERFORMANCE' : 'CITIZEN AI ALERT',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: textColor,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: isAgent ? Colors.white.withOpacity(0.2) : const Color(0xFFFEF2F2),
-                            borderRadius: BorderRadius.circular(20),
-                            border: isAgent ? null : Border.all(color: const Color(0xFFFECACA)),
-                          ),
-                          child: Text(
-                            isAgent ? 'Today' : 'Due tomorrow',
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                              color: isAgent ? Colors.white : const Color(0xFFDC2626),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Role Specific Content
-                    if (isAgent) ...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Commission',
-                                style: TextStyle(color: subTextColor, fontSize: 13, fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'ZK 450',
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(width: 1, height: 40, color: Colors.white.withOpacity(0.2)),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Tasks',
-                                style: TextStyle(color: subTextColor, fontSize: 13, fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(height: 4),
-                              RichText(
-                                text: const TextSpan(
-                                  children: [
-                                    TextSpan(text: '3', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white)),
-                                    TextSpan(text: ' / 5', style: TextStyle(fontSize: 18, color: Colors.white70)),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(width: 10), // Spacing
-                        ],
-                      ),
-                    ] else ...[
-                      // Citizen Layout
-                      const Text('Electricity Bill Due',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF4B5563))),
-                      const SizedBox(height: 8),
-                      const Text('ZK 450.00',
-                          style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFF111827),
-                              letterSpacing: -1.0)),
-                      const SizedBox(height: 24),
-                      Row(children: [
-                        Expanded(
-                            flex: 2,
-                            child: _buildActionButton('Pay Now', LucideIcons.arrow_right)),
-                        const SizedBox(width: 16),
-                        const Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Text('Remind later',
-                                style: TextStyle(
-                                    color: Color(0xFF6B7280),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14)),
-                          ),
-                        )
-                      ]),
-                    ],
-                  ],
-                ),
-              ),
-            ],
-          ),
+          child: ResponsiveLayout.isDesktop(context)
+              ? _DesktopLayout(role: role, isAgent: isAgent)
+              : _MobileLayout(role: role, isAgent: isAgent),
         ),
       ),
     );
   }
+}
 
-  Widget _buildActionButton(String label, IconData icon) {
-    return Container(
-      width: double.infinity,
-      height: 48,
-      decoration: BoxDecoration(
-        color: const Color(0xFF4F46E5), // indigo-600
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(color: Color(0x334F46E5), blurRadius: 10, offset: Offset(0, 4)), // shadow-indigo-200 equivalentish
+class _MobileLayout extends StatelessWidget {
+  final UserRole role;
+  final bool isAgent;
+
+  const _MobileLayout({required this.role, required this.isAgent});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _HeaderRow(isAgent: isAgent),
+          const SizedBox(height: 24),
+          _MainValue(isAgent: isAgent),
+          const SizedBox(height: 24),
+          _ActionButtons(isAgent: isAgent, fullWidth: true),
         ],
       ),
+    );
+  }
+}
+
+class _DesktopLayout extends StatelessWidget {
+  final UserRole role;
+  final bool isAgent;
+
+  const _DesktopLayout({required this.role, required this.isAgent});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24), // Reduced vertical padding
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          const SizedBox(width: 8),
-          Icon(icon, color: Colors.white, size: 18),
+          Expanded(
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _HeaderRow(isAgent: isAgent),
+                const SizedBox(height: 12),
+                _MainValue(isAgent: isAgent),
+              ],
+            ),
+          ),
+          Container(
+            width: 1,
+            height: 80,
+            color: isAgent ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.05),
+            margin: const EdgeInsets.symmetric(horizontal: 24),
+          ),
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _ActionButtons(isAgent: isAgent, fullWidth: false),
+                 const SizedBox(height: 12),
+                 if (!isAgent)
+                   Text('Due in 5 days', style: AppTypography.caption(context).copyWith(color: AppColors.textSecondary)),
+              ],
+            ),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class _HeaderRow extends StatelessWidget {
+  final bool isAgent;
+  const _HeaderRow({required this.isAgent});
+
+  @override
+  Widget build(BuildContext context) {
+    final Color textColor = isAgent ? Colors.white : AppColors.textPrimary;
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: isAgent ? Colors.white.withOpacity(0.2) : const Color(0xFF2563EB).withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            isAgent ? LucideIcons.zap : LucideIcons.sparkles,
+            size: 16,
+            color: isAgent ? Colors.white : AppColors.primary,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Text(
+          isAgent ? 'AGENT PERFORMANCE' : 'CITIZEN AI ALERT',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: isAgent ? Colors.white.withOpacity(0.9) : AppColors.textSecondary,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _MainValue extends StatelessWidget {
+  final bool isAgent;
+  const _MainValue({required this.isAgent});
+
+  @override
+  Widget build(BuildContext context) {
+    final Color textColor = isAgent ? Colors.white : const Color(0xFF1E293B);
+    
+    if (isAgent) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Commission Earned', style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 13, fontWeight: FontWeight.w500)),
+          const SizedBox(height: 4),
+          const Text('ZK 450.00', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white)),
+        ],
+      );
+    }
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('Electricity Bill Due', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textSecondary)),
+        const SizedBox(height: 4),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            Text('ZK', style: TextStyle(color: AppColors.textSecondary, fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(width: 4),
+            Text('450.00', style: TextStyle(color: textColor, fontSize: 36, fontWeight: FontWeight.w800, letterSpacing: -1)),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _ActionButtons extends StatelessWidget {
+  final bool isAgent;
+  final bool fullWidth;
+
+  const _ActionButtons({required this.isAgent, required this.fullWidth});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> buttons = [
+      if (fullWidth)
+        Expanded(child: _PrimaryBtn(isAgent: isAgent))
+      else 
+        _PrimaryBtn(isAgent: isAgent, width: 160),
+        
+      const SizedBox(width: 12),
+      
+      _SecondaryBtn(isAgent: isAgent),
+    ];
+
+    if (fullWidth) {
+      return Row(children: buttons);
+    } else {
+      return Row(mainAxisAlignment: MainAxisAlignment.end, children: buttons.reversed.toList());
+    }
+  }
+}
+
+class _PrimaryBtn extends StatelessWidget {
+  final bool isAgent;
+  final double? width;
+  const _PrimaryBtn({required this.isAgent, this.width});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 48,
+      width: width,
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isAgent ? Colors.white : AppColors.primary,
+          foregroundColor: isAgent ? AppColors.primary : Colors.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+        child: Text(isAgent ? 'View Tasks' : 'Pay Now', style: const TextStyle(fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+}
+
+class _SecondaryBtn extends StatelessWidget {
+  final bool isAgent;
+  const _SecondaryBtn({required this.isAgent});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 48,
+      width: 48,
+      child: OutlinedButton(
+        onPressed: () {},
+        style: OutlinedButton.styleFrom(
+          padding: EdgeInsets.zero,
+          side: BorderSide(color: isAgent ? Colors.white.withOpacity(0.3) : Colors.grey.withOpacity(0.3)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          foregroundColor: isAgent ? Colors.white : AppColors.textSecondary,
+        ),
+        child: const Icon(LucideIcons.bell, size: 20),
       ),
     );
   }

@@ -61,21 +61,24 @@ class _PressScaleWidgetState extends State<PressScaleWidget> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: _onTapDown,
-      onTapUp: _onTapUp,
-      onTapCancel: _onTapCancel,
-      onLongPress: widget.onLongPress,
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, child) {
-          return Transform.scale(
-            scale: _scaleAnimation.value,
-            child: child,
-          );
-        },
-        child: widget.child,
+    return MouseRegion(
+      cursor: widget.onPressed != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      child: GestureDetector(
+        onTapDown: _onTapDown,
+        onTapUp: _onTapUp,
+        onTapCancel: _onTapCancel,
+        onLongPress: widget.onLongPress,
+        behavior: HitTestBehavior.opaque,
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return Transform.scale(
+              scale: _scaleAnimation.value,
+              child: child,
+            );
+          },
+          child: widget.child,
+        ),
       ),
     );
   }

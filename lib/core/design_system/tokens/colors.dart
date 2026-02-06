@@ -26,6 +26,7 @@ class AppColors {
   static const Color textMain = Color(0xFF111827); // Alias
   static const Color textSecondary = Color(0xFF4B5563);
   static const Color textMuted = Color(0xFF9CA3AF);
+  static const Color textTertiary = Color(0xFF9CA3AF); // Alias for Muted
 
   // Status
   static const Color error = Color(0xFFEF4444);

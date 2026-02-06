@@ -84,33 +84,7 @@ final appRouter = GoRouter(
         ),
         
         // --- Loan Journey Routes ---
-        GoRoute(
-          path: '/loans',
-          builder: (context, state) => const LoansDashboardScreen(),
-           routes: [
-             GoRoute(
-               path: 'eligibility',
-                builder: (context, state) => const LoanEligibilityScreen(),
-             ),
-             GoRoute(
-               path: 'recommendation',
-                builder: (context, state) => const AILoanRecommendationScreen(),
-             ),
-             GoRoute(
-               path: 'compare',
-                builder: (context, state) => const LoanComparisonScreen(),
-             ),
-             GoRoute(
-               path: 'apply',
-                builder: (context, state) => const LoanApplicationScreen(),
-             ),
 
-             GoRoute(
-               path: 'personal',
-                builder: (context, state) => const LoanMarketplaceScreen(loanType: 'Personal Loan'),
-             ),
-           ]
-        ),
         
         // --- Services (Migrated) ---
          GoRoute(
@@ -210,6 +184,35 @@ final appRouter = GoRouter(
        path: '/tools/emi-calculator',
         builder: (context, state) => const EmiCalculatorScreen(),
      ),
+
+    // --- Loan Journey Routes (Fullscreen) ---
+    GoRoute(
+      path: '/loans',
+      builder: (context, state) => const LoansDashboardScreen(),
+       routes: [
+         GoRoute(
+           path: 'eligibility',
+            builder: (context, state) => const LoanEligibilityScreen(),
+         ),
+         GoRoute(
+           path: 'recommendation',
+            builder: (context, state) => const AILoanRecommendationScreen(),
+         ),
+         GoRoute(
+           path: 'compare',
+            builder: (context, state) => const LoanComparisonScreen(),
+         ),
+         GoRoute(
+           path: 'apply',
+            builder: (context, state) => const LoanApplicationScreen(),
+         ),
+
+         GoRoute(
+           path: 'personal',
+            builder: (context, state) => const LoanMarketplaceScreen(loanType: 'Personal Loan'),
+         ),
+       ]
+    ),
 
     GoRoute(
       path: '/services/loans',

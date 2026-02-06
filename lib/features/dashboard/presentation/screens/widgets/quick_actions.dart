@@ -52,7 +52,7 @@ class QuickActions extends StatelessWidget {
              int idx = entry.key;
              _ActionItem action = entry.value;
              return Padding(
-               padding: EdgeInsets.only(right: idx < actions.length - 1 ? 40.0 : 0),
+               padding: EdgeInsets.only(right: idx < actions.length - 1 ? 48.0 : 0), // Increased gap
                child: _buildActionItem(context, action),
              );
           }).toList(),
@@ -86,13 +86,14 @@ class QuickActions extends StatelessWidget {
   }
 
   Widget _buildActionItem(BuildContext context, _ActionItem action) {
-    return GestureDetector(
-      onTap: () {
+    return PressScaleWidget(
+      onPressed: () {
         if (action.route != null) {
           context.push(action.route!);
         }
       },
       child: Column(
+        mainAxisSize: MainAxisSize.min, // Important for Wrap/Row alignment
         children: [
           Container(
             width: AppDimensions.iconBoxSize, 
@@ -100,13 +101,23 @@ class QuickActions extends StatelessWidget {
             decoration: BoxDecoration(
               color: action.bgColor,
               borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: action.iconColor.withValues(alpha: 0.15),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                )
+              ]
             ),
             child: Icon(action.icon, size: AppDimensions.iconSize, color: action.iconColor),
           ),
           const SizedBox(height: AppDimensions.iconToLabelGap),
           Text(
             action.label,
-            style: AppTypography.gridItemLabel,
+            style: AppTypography.caption(context).copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary
+            ),
             textAlign: TextAlign.center,
           ),
         ],

@@ -92,7 +92,7 @@ class SuperHomeScreen extends ConsumerWidget {
              ),
            ),
         ] else ...[
-          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 24 : AppDimensions.sectionVerticalSpacing)),
           
           // Quick Actions Section
           SliverToBoxAdapter(
@@ -102,7 +102,7 @@ class SuperHomeScreen extends ConsumerWidget {
             ),
           ),
           
-          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
+          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 12 : AppDimensions.headerToContentSpacing)),
           
           SliverToBoxAdapter(
             child: Padding(
@@ -111,7 +111,7 @@ class SuperHomeScreen extends ConsumerWidget {
             ),
           ),
           
-          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 32 : AppDimensions.sectionVerticalSpacing)),
           
           // Services Section
           SliverToBoxAdapter(
@@ -125,7 +125,7 @@ class SuperHomeScreen extends ConsumerWidget {
             ),
           ),
           
-          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
+          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 16 : AppDimensions.headerToContentSpacing)),
           
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
@@ -138,13 +138,13 @@ class SuperHomeScreen extends ConsumerWidget {
               ),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: ResponsiveLayout.isDesktop(context) ? 200 : 110,
-                mainAxisSpacing: 24,
+                mainAxisSpacing: ResponsiveLayout.isDesktop(context) ? 32 : 24,
                 crossAxisSpacing: 16,
                 mainAxisExtent: ResponsiveLayout.isDesktop(context) ? 160 : 110,
               ),
             ),
           ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 40 : AppDimensions.sectionVerticalSpacing)),
           
           if (role == UserRole.agent) ...[
              // Agent Insights
@@ -154,7 +154,7 @@ class SuperHomeScreen extends ConsumerWidget {
                  child: const AgentInsights(),
                ),
              ),
-             const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+             SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 32 : AppDimensions.sectionVerticalSpacing)),
           ],
 
           
