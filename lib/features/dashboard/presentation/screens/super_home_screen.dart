@@ -48,68 +48,51 @@ class SuperHomeScreen extends ConsumerWidget {
         ),
         child: CustomScrollView(
           slivers: [
+            // 1. Hero / Partner Header
             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final bool useSideBySide = ResponsiveLayout.isDesktop(context) && constraints.maxWidth > 800;
-                    
-                    return useSideBySide
-                        ? Column(
-                            children: [
-                              const SizedBox(height: 32),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: HeroCard(role: role),
-                                  ),
-                                  const SizedBox(width: 32),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const SectionHeader(title: 'Quick Actions'),
-                                        const SizedBox(height: 16),
-                                        QuickActions(role: role),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 20),
-                              if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
-                                BankPartnerCard(
-                                  partnerName: authState.selectedPartner!,
-                                  partnerIcon: authState.partnerIcon ?? LucideIcons.landmark,
-                                  partnerType: authState.partnerType,
-                                  onSwitch: () => ref.read(authProvider.notifier).clearPartner(),
-                                ),
-                              ] else ...[
-                                HeroCard(role: role),
-                              ],
-                              if (role == UserRole.agent && authState.selectedPartner == null) ...[
-                                const SizedBox(height: 16),
-                                const AgentTaskAlert(),
-                              ],
-                            ],
-                          );
-                  },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
+                      BankPartnerCard(
+                        partnerName: authState.selectedPartner!,
+                        partnerIcon: authState.partnerIcon ?? LucideIcons.landmark,
+                        partnerType: authState.partnerType,
+                        onSwitch: () => ref.read(authProvider.notifier).clearPartner(),
+                      ),
+                    ] else ...[
+                      HeroCard(role: role),
+                    ],
+                    if (role == UserRole.agent && authState.selectedPartner == null) ...[
+                      const SizedBox(height: 16),
+                      const AgentTaskAlert(),
+                    ],
+                  ],
                 ),
               ),
             ),
             
+            // 2. Quick Actions
+            SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 32 : AppDimensions.sectionVerticalSpacing)),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SectionHeader(title: 'Quick Actions'),
+                    const SizedBox(height: 16),
+                    QuickActions(role: role),
+                  ],
+                ),
+              ),
+            ),
+
             if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
-               // Partner-specific services based on type
+               // Partner-specific services (Optional middle section)
                SliverToBoxAdapter(
                  child: Padding(
                    padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 32),
@@ -119,28 +102,9 @@ class SuperHomeScreen extends ConsumerWidget {
                        ? const InsuranceServicesGrid()
                        : authState.partnerType == 'MNO'
                          ? const MnoServicesGrid()
-                         : const PartnerServicesGrid(), // Default to bank services
+                         : const PartnerServicesGrid(),
                  ),
                ),
-            ] else if (!ResponsiveLayout.isDesktop(context)) ...[
-              const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
-              
-              // Quick Actions Section (Mobile only here, Desktop has it in the Hero Row)
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                  child: const SectionHeader(title: 'Quick Actions'),
-                ),
-              ),
-              
-              SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
-              
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                  child: QuickActions(role: role),
-                ),
-              ),
             ],
     
             // Services section (Desktop starts here in slivers, Mobile continues)
