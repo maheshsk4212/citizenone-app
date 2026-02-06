@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:citizenone_app/features/auth/presentation/providers/auth_provider.dart';
 

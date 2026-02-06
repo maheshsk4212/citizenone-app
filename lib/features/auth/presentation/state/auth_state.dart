@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 
 class AuthState {
