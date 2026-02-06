@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:go_router/go_router.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/features/loans/domain/entities/loan_offer.dart';
 
@@ -162,7 +163,10 @@ class CompareLoansSheet extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: ElevatedButton(
                         onPressed: () {
-                          // Handle apply
+                          Navigator.pop(context); // Close the sheet first
+                          context.push(
+                            '/application/flow?loanType=Personal%20Loan&bankName=${Uri.encodeComponent(offer.bankName)}', 
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: isBest ? const Color(0xFF6366F1) : Colors.white,
