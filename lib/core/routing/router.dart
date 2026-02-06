@@ -183,11 +183,7 @@ final appRouter = GoRouter(
           path: '/services/banking',
           builder: (context, state) => const BankingScreen(),
         ),
-        // Fix for legacy/broken links pointing to /services/loans
-        GoRoute(
-          path: '/services/loans',
-          redirect: (context, state) => '/loans', 
-        ),
+        // Legacy redirect moved to top-level
       ],
     ),
     
@@ -214,5 +210,13 @@ final appRouter = GoRouter(
        path: '/tools/emi-calculator',
         builder: (context, state) => const EmiCalculatorScreen(),
      ),
+
+    // Fix for legacy/broken links pointing to /services/loans
+    // Placed at top level to ensure capture before Shell logic
+    GoRoute(
+      path: '/services/loans',
+      redirect: (context, state) => '/loans',
+      builder: (context, state) => const SizedBox.shrink(), // Dummy builder for safety
+    ),
   ],
 );
