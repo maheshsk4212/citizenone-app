@@ -168,6 +168,11 @@ final appRouter = GoRouter(
           path: '/services/banking',
           builder: (context, state) => const BankingScreen(),
         ),
+        // Fix for legacy/broken links pointing to /services/loans
+        GoRoute(
+          path: '/services/loans',
+          redirect: (context, state) => '/loans', 
+        ),
       ],
     ),
     
