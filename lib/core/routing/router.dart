@@ -178,7 +178,7 @@ final appRouter = GoRouter(
     
     // --- Fullscreen Routes (No Shell) ---
     GoRoute(
-       path: '/loans/apply-flow',
+       path: '/application/flow',
        builder: (context, state) {
          final loanType = state.uri.queryParameters['loanType'] ?? 'Personal Loan';
          final bankName = state.uri.queryParameters['bankName'];
@@ -189,14 +189,14 @@ final appRouter = GoRouter(
        },
      ),
      GoRoute(
-       path: '/loans/status',
+       path: '/application/status',
        builder: (context, state) {
          final referenceId = state.uri.queryParameters['ref'];
          return LoanStatusTrackingScreen(referenceId: referenceId);
        },
      ),
      GoRoute(
-       path: '/loans/emi-calculator',
+       path: '/tools/emi-calculator',
         builder: (context, state) => const EmiCalculatorScreen(),
      ),
   ],

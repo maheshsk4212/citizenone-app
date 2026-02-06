@@ -220,7 +220,7 @@ class LoansDashboardScreen extends StatelessWidget {
 
             // EMI Calculator
             GestureDetector(
-              onTap: () => context.push('/loans/emi-calculator'),
+              onTap: () => context.push('/tools/emi-calculator'),
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 padding: const EdgeInsets.all(16),
@@ -481,7 +481,7 @@ class _ApplicationCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        context.push('/loans/status?ref=${application.referenceNumber}');
+        context.push('/application/status?ref=${application.referenceNumber}');
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),

@@ -98,7 +98,7 @@ class LoanMarketplaceScreen extends ConsumerWidget {
                       onSelect: () => loanNotifier.toggleOfferSelection(offer.id),
                       onApply: () {
                         context.push(
-                          '/loans/apply-flow?loanType=${Uri.encodeComponent(loanType)}&bankName=${Uri.encodeComponent(offer.bankName)}',
+                          '/application/flow?loanType=${Uri.encodeComponent(loanType)}&bankName=${Uri.encodeComponent(offer.bankName)}',
                         );
                       },
                     );
