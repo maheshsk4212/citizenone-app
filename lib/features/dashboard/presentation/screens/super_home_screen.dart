@@ -16,6 +16,7 @@ import 'package:citizenone_app/features/dashboard/presentation/screens/partner_s
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/agent_task_alert.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/agent_insights.dart';
 import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/bank_partner_card.dart';
+import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/partner_services_grid.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 import 'package:citizenone_app/features/dashboard/domain/entities/service_entity.dart';
 import 'package:go_router/go_router.dart';
@@ -60,7 +61,7 @@ class SuperHomeScreen extends ConsumerWidget {
                       ] else ...[
                         HeroCard(role: role),
                       ],
-                      if (role == UserRole.agent) ...[
+                      if (role == UserRole.agent && authState.selectedPartner == null) ...[
                         const SizedBox(height: 16),
                         const AgentTaskAlert(),
                       ],
@@ -71,83 +72,91 @@ class SuperHomeScreen extends ConsumerWidget {
           ),
         ),
         
-        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
-        
-        // Quick Actions Section
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: const SectionHeader(title: 'Quick Actions'),
-          ),
-        ),
-        
-        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
-        
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: QuickActions(role: role),
-          ),
-        ),
-        
-        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
-        
-        // Services Section
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: SectionHeader(
-              title: 'All Services',
-              actionLabel: 'View All',
-              onActionTap: () => context.push('/services'),
-            ),
-          ),
-        ),
-        
-        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
-        
-        SliverPadding(
-          padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-          sliver: SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return ServiceCard(service: services[index]);
-              },
-              childCount: services.length,
-            ),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 110,
-              mainAxisSpacing: 24,
-              crossAxisSpacing: 16,
-              mainAxisExtent: 110,
-            ),
-          ),
-        ),
-        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
-        
-        if (role == UserRole.agent) ...[
-           // Agent Insights
+        if (role == UserRole.agent && authState.selectedPartner != null) ...[
+           // Bucket-style services for selected partner
            SliverToBoxAdapter(
              child: Padding(
-               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-               child: const AgentInsights(),
+               padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 32),
+               child: const PartnerServicesGrid(),
              ),
            ),
-           const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
-        ],
+        ] else ...[
+          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+          
+          // Quick Actions Section
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: const SectionHeader(title: 'Quick Actions'),
+            ),
+          ),
+          
+          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
+          
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: QuickActions(role: role),
+            ),
+          ),
+          
+          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+          
+          // Services Section
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: SectionHeader(
+                title: 'All Services',
+                actionLabel: 'View All',
+                onActionTap: () => context.push('/services'),
+              ),
+            ),
+          ),
+          
+          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
+          
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            sliver: SliverGrid(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return ServiceCard(service: services[index]);
+                },
+                childCount: services.length,
+              ),
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 110,
+                mainAxisSpacing: 24,
+                crossAxisSpacing: 16,
+                mainAxisExtent: 110,
+              ),
+            ),
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+          
+          if (role == UserRole.agent) ...[
+             // Agent Insights
+             SliverToBoxAdapter(
+               child: Padding(
+                 padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                 child: const AgentInsights(),
+               ),
+             ),
+             const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+          ],
 
-        
-        // Recent Activity (Bottom)
-        SliverToBoxAdapter(
-           child: Padding(
-             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-             child: const RecentActivity(),
-           ),
-        ),
+          
+          // Recent Activity (Bottom)
+          SliverToBoxAdapter(
+             child: Padding(
+               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+               child: const RecentActivity(),
+             ),
+          ),
+        ],
         const SliverToBoxAdapter(child: SizedBox(height: 100)), // Bottom padding
       ],
     );
   }
-
-
 }
