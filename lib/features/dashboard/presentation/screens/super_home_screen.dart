@@ -41,159 +41,167 @@ class SuperHomeScreen extends ConsumerWidget {
       return const PartnerSelectionScreen();
     }
 
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final bool useSideBySide = ResponsiveLayout.isDesktop(context) && constraints.maxWidth > 1000;
-                
-                return useSideBySide
-                    ? Column(
-                        children: [
-                          const SizedBox(height: 24),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: ResponsiveLayout.isDesktop(context) ? 1400 : double.infinity,
+        ),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final bool useSideBySide = ResponsiveLayout.isDesktop(context) && constraints.maxWidth > 800;
+                    
+                    return useSideBySide
+                        ? Column(
                             children: [
-                              Expanded(
-                                flex: 3,
-                                child: HeroCard(role: role),
-                              ),
-                              const SizedBox(width: 32),
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SectionHeader(title: 'Quick Actions'),
-                                    const SizedBox(height: 16),
-                                    QuickActions(role: role),
-                                  ],
-                                ),
+                              const SizedBox(height: 32),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: HeroCard(role: role),
+                                  ),
+                                  const SizedBox(width: 32),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const SectionHeader(title: 'Quick Actions'),
+                                        const SizedBox(height: 16),
+                                        QuickActions(role: role),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
-                          ),
-                        ],
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 20),
-                          if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
-                            BankPartnerCard(
-                              partnerName: authState.selectedPartner!,
-                              partnerIcon: authState.partnerIcon ?? LucideIcons.landmark,
-                              partnerType: authState.partnerType,
-                              onSwitch: () => ref.read(authProvider.notifier).clearPartner(),
-                            ),
-                          ] else ...[
-                            HeroCard(role: role),
-                          ],
-                          if (role == UserRole.agent && authState.selectedPartner == null) ...[
-                            const SizedBox(height: 16),
-                            const AgentTaskAlert(),
-                          ],
-                        ],
-                      );
-              },
-            ),
-          ),
-        ),
-        
-        if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
-           // Partner-specific services based on type
-           SliverToBoxAdapter(
-             child: Padding(
-               padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 32),
-               child: authState.partnerType == 'Bank' 
-                 ? const PartnerServicesGrid()
-                 : authState.partnerType == 'Insurance'
-                   ? const InsuranceServicesGrid()
-                   : authState.partnerType == 'MNO'
-                     ? const MnoServicesGrid()
-                     : const PartnerServicesGrid(), // Default to bank services
-             ),
-           ),
-        ] else if (!ResponsiveLayout.isDesktop(context)) ...[
-          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
-          
-          // Quick Actions Section (Mobile only here, Desktop has it in the Hero Row)
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-              child: const SectionHeader(title: 'Quick Actions'),
-            ),
-          ),
-          
-          SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
-          
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-              child: QuickActions(role: role),
-            ),
-          ),
-        ],
-
-        // Services section (Desktop starts here in slivers, Mobile continues)
-        SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 32 : AppDimensions.sectionVerticalSpacing)),
-        
-        // Services Section
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: SectionHeader(
-              title: 'All Services',
-              actionLabel: 'View All',
-              onActionTap: () => context.push('/services'),
-            ),
-          ),
-        ),
-          
-          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 16 : AppDimensions.headerToContentSpacing)),
-          
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            sliver: SliverGrid(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return ServiceCard(service: services[index]);
-                },
-                childCount: services.length,
-              ),
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: ResponsiveLayout.isDesktop(context) ? 140 : 110,
-                mainAxisSpacing: ResponsiveLayout.isDesktop(context) ? 32 : 24,
-                crossAxisSpacing: 16,
-                mainAxisExtent: ResponsiveLayout.isDesktop(context) ? 120 : 110,
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 20),
+                              if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
+                                BankPartnerCard(
+                                  partnerName: authState.selectedPartner!,
+                                  partnerIcon: authState.partnerIcon ?? LucideIcons.landmark,
+                                  partnerType: authState.partnerType,
+                                  onSwitch: () => ref.read(authProvider.notifier).clearPartner(),
+                                ),
+                              ] else ...[
+                                HeroCard(role: role),
+                              ],
+                              if (role == UserRole.agent && authState.selectedPartner == null) ...[
+                                const SizedBox(height: 16),
+                                const AgentTaskAlert(),
+                              ],
+                            ],
+                          );
+                  },
+                ),
               ),
             ),
-          ),
-          SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 32 : AppDimensions.sectionVerticalSpacing)),
-          
-          if (role == UserRole.agent) ...[
-             // Agent Insights
-             SliverToBoxAdapter(
-               child: Padding(
-                 padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                 child: const AgentInsights(),
+            
+            if (role == UserRole.agent && authState.selectedPartner != null && workContext == 'Partner') ...[
+               // Partner-specific services based on type
+               SliverToBoxAdapter(
+                 child: Padding(
+                   padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 32),
+                   child: authState.partnerType == 'Bank' 
+                     ? const PartnerServicesGrid()
+                     : authState.partnerType == 'Insurance'
+                       ? const InsuranceServicesGrid()
+                       : authState.partnerType == 'MNO'
+                         ? const MnoServicesGrid()
+                         : const PartnerServicesGrid(), // Default to bank services
+                 ),
                ),
-             ),
-             SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 32 : AppDimensions.sectionVerticalSpacing)),
-          ],
-
-          
-          // Recent Activity (Bottom)
-          SliverToBoxAdapter(
-             child: Padding(
-               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-               child: const RecentActivity(),
-             ),
+            ] else if (!ResponsiveLayout.isDesktop(context)) ...[
+              const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.sectionVerticalSpacing)),
+              
+              // Quick Actions Section (Mobile only here, Desktop has it in the Hero Row)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  child: const SectionHeader(title: 'Quick Actions'),
+                ),
+              ),
+              
+              SliverToBoxAdapter(child: SizedBox(height: AppDimensions.headerToContentSpacing)),
+              
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  child: QuickActions(role: role),
+                ),
+              ),
+            ],
+    
+            // Services section (Desktop starts here in slivers, Mobile continues)
+            SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 48 : AppDimensions.sectionVerticalSpacing)),
+            
+            // Services Section
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                child: SectionHeader(
+                  title: 'All Services',
+                  actionLabel: 'View All',
+                  onActionTap: () => context.push('/services'),
+                ),
+              ),
+            ),
+              
+              SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 16 : AppDimensions.headerToContentSpacing)),
+              
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                sliver: SliverGrid(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return ServiceCard(service: services[index]);
+                    },
+                    childCount: services.length,
+                  ),
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: ResponsiveLayout.isDesktop(context) ? 140 : 110,
+                    mainAxisSpacing: ResponsiveLayout.isDesktop(context) ? 32 : 24,
+                    crossAxisSpacing: 16,
+                    mainAxisExtent: ResponsiveLayout.isDesktop(context) ? 120 : 110,
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 40 : AppDimensions.sectionVerticalSpacing)),
+              
+              if (role == UserRole.agent) ...[
+                 // Agent Insights
+                 SliverToBoxAdapter(
+                   child: Padding(
+                     padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                     child: const AgentInsights(),
+                   ),
+                 ),
+                 SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 32 : AppDimensions.sectionVerticalSpacing)),
+              ],
+    
+              
+              // Recent Activity (Bottom)
+              SliverToBoxAdapter(
+                 child: Padding(
+                   padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                   child: const RecentActivity(),
+                 ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.scrollBottomPadding)), // Bottom padding
+            ],
           ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.scrollBottomPadding)), // Bottom padding
-        ],
-      );
+      ),
+    );
   }
 }
