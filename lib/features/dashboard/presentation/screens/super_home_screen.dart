@@ -49,7 +49,9 @@ class SuperHomeScreen extends ConsumerWidget {
             child: Align(
               alignment: Alignment.topLeft,
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 800),
+                constraints: BoxConstraints(
+                  maxWidth: ResponsiveLayout.isDesktop(context) ? double.infinity : 800
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -135,10 +137,10 @@ class SuperHomeScreen extends ConsumerWidget {
                 childCount: services.length,
               ),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 110,
+                maxCrossAxisExtent: ResponsiveLayout.isDesktop(context) ? 200 : 110,
                 mainAxisSpacing: 24,
                 crossAxisSpacing: 16,
-                mainAxisExtent: 110,
+                mainAxisExtent: ResponsiveLayout.isDesktop(context) ? 160 : 110,
               ),
             ),
           ),
