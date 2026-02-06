@@ -150,69 +150,88 @@ class LoansDashboardScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
+            // Loan Categories - Grid View
+            // Loan Categories - Grid Layout using Wrap
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Wrap(
-                spacing: 12,
-                runSpacing: 20,
-                children: [
-                  _LoanCategoryCard(
-                    title: 'Personal Loan',
-                    icon: LucideIcons.briefcase,
-                    color: const Color(0xFFDBEAFE),
-                    iconColor: const Color(0xFF2563EB),
-                    onTap: () => context.push('/loans/personal'),
-                  ),
-                  _LoanCategoryCard(
-                    title: 'Home Loan',
-                    icon: LucideIcons.house,
-                    color: const Color(0xFFDCFCE7),
-                    iconColor: const Color(0xFF16A34A),
-                    onTap: () {},
-                  ),
-                  _LoanCategoryCard(
-                    title: 'Vehicle Loan',
-                    icon: LucideIcons.car,
-                    color: const Color(0xFFFFEDD5),
-                    iconColor: const Color(0xFFF97316),
-                    onTap: () {},
-                  ),
-                  _LoanCategoryCard(
-                    title: 'Agri Loan',
-                    icon: LucideIcons.sprout,
-                    color: const Color(0xFFD1FAE5),
-                    iconColor: const Color(0xFF10B981),
-                    onTap: () {},
-                  ),
-                  _LoanCategoryCard(
-                    title: 'Education',
-                    icon: LucideIcons.graduation_cap,
-                    color: const Color(0xFFF3E8FF),
-                    iconColor: const Color(0xFF9333EA),
-                    onTap: () {},
-                  ),
-                  _LoanCategoryCard(
-                    title: 'MSME Business',
-                    icon: LucideIcons.building_2,
-                    color: const Color(0xFFDDD6FE),
-                    iconColor: const Color(0xFF7C3AED),
-                    onTap: () {},
-                  ),
-                  _LoanCategoryCard(
-                    title: 'Construction',
-                    icon: LucideIcons.hammer,
-                    color: const Color(0xFFFEF3C7),
-                    iconColor: const Color(0xFFEAB308),
-                    onTap: () {},
-                  ),
-                  _LoanCategoryCard(
-                    title: 'Asset Based',
-                    icon: LucideIcons.landmark,
-                    color: const Color(0xFFFEE2E2),
-                    iconColor: const Color(0xFFEF4444),
-                    onTap: () {},
-                  ),
-                ],
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  const crossAxisCount = 4;
+                  const spacing = 12.0;
+                  final totalSpacing = spacing * (crossAxisCount - 1);
+                  final itemWidth = (constraints.maxWidth - totalSpacing) / crossAxisCount;
+
+                  return Wrap(
+                    spacing: spacing,
+                    runSpacing: 20,
+                    children: [
+                      _LoanCategoryCard(
+                        width: itemWidth,
+                        title: 'Personal Loan',
+                        icon: LucideIcons.briefcase,
+                        color: const Color(0xFFDBEAFE),
+                        iconColor: const Color(0xFF2563EB),
+                        onTap: () => context.push('/loans/personal'),
+                      ),
+                      _LoanCategoryCard(
+                        width: itemWidth,
+                        title: 'Home Loan',
+                        icon: LucideIcons.house,
+                        color: const Color(0xFFDCFCE7),
+                        iconColor: const Color(0xFF16A34A),
+                        onTap: () {},
+                      ),
+                      _LoanCategoryCard(
+                        width: itemWidth,
+                        title: 'Vehicle Loan',
+                        icon: LucideIcons.car,
+                        color: const Color(0xFFFFEDD5),
+                        iconColor: const Color(0xFFF97316),
+                        onTap: () {},
+                      ),
+                      _LoanCategoryCard(
+                        width: itemWidth,
+                        title: 'Agri Loan',
+                        icon: LucideIcons.sprout,
+                        color: const Color(0xFFD1FAE5),
+                        iconColor: const Color(0xFF10B981),
+                        onTap: () {},
+                      ),
+                      _LoanCategoryCard(
+                        width: itemWidth,
+                        title: 'Education',
+                        icon: LucideIcons.graduation_cap,
+                        color: const Color(0xFFF3E8FF),
+                        iconColor: const Color(0xFF9333EA),
+                        onTap: () {},
+                      ),
+                      _LoanCategoryCard(
+                        width: itemWidth,
+                        title: 'MSME Business',
+                        icon: LucideIcons.building_2,
+                        color: const Color(0xFFDDD6FE),
+                        iconColor: const Color(0xFF7C3AED),
+                        onTap: () {},
+                      ),
+                      _LoanCategoryCard(
+                        width: itemWidth,
+                        title: 'Construction',
+                        icon: LucideIcons.hammer,
+                        color: const Color(0xFFFEF3C7),
+                        iconColor: const Color(0xFFEAB308),
+                        onTap: () {},
+                      ),
+                      _LoanCategoryCard(
+                        width: itemWidth,
+                        title: 'Asset Based',
+                        icon: LucideIcons.landmark,
+                        color: const Color(0xFFFEE2E2),
+                        iconColor: const Color(0xFFEF4444),
+                        onTap: () {},
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
 
@@ -349,6 +368,7 @@ class _LoanCategoryCard extends StatelessWidget {
   final Color color;
   final Color iconColor;
   final VoidCallback onTap;
+  final double width;
 
   const _LoanCategoryCard({
     required this.title,
@@ -356,6 +376,7 @@ class _LoanCategoryCard extends StatelessWidget {
     required this.color,
     required this.iconColor,
     required this.onTap,
+    required this.width,
   });
 
   @override
@@ -364,8 +385,9 @@ class _LoanCategoryCard extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: SizedBox(
-        width: 80,
+        width: width,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               width: 64,
