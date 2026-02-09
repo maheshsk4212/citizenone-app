@@ -39,6 +39,16 @@ class BankPartnerCard extends StatelessWidget {
         children: [
           Row(
             children: [
+              IconButton(
+                onPressed: onSwitch,
+                icon: const Icon(LucideIcons.chevron_left, color: Color(0xFF6B7280), size: 18),
+                style: IconButton.styleFrom(
+                  backgroundColor: const Color(0xFFF3F4F6),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  padding: const EdgeInsets.all(8),
+                ),
+              ),
+              const SizedBox(width: 12),
               Container(
                 width: 56,
                 height: 56,
@@ -72,15 +82,6 @@ class BankPartnerCard extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              ),
-              IconButton(
-                onPressed: onSwitch,
-                icon: const Icon(LucideIcons.arrow_up_down, color: Color(0xFF6B7280), size: 20),
-                style: IconButton.styleFrom(
-                  backgroundColor: const Color(0xFFF3F4F6),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  padding: const EdgeInsets.all(12),
                 ),
               ),
             ],

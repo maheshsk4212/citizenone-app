@@ -28,7 +28,7 @@ class InsuranceServicesGrid extends StatelessWidget {
           _ServiceItem('Policy Status', LucideIcons.search, const Color(0xFF64748B)),
         ]),
         
-        const SizedBox(height: 32),
+        const SizedBox(height: AppDimensions.sectionVerticalSpacing),
         
         _buildCategory('Claims & Support', [
           _ServiceItem('File Claim', LucideIcons.file_text, const Color(0xFFF59E0B)),
@@ -36,7 +36,7 @@ class InsuranceServicesGrid extends StatelessWidget {
           _ServiceItem('Documents', LucideIcons.folder, const Color(0xFF8B5CF6)),
         ]),
         
-        const SizedBox(height: 32),
+        const SizedBox(height: AppDimensions.sectionVerticalSpacing),
         
         _buildCategory('Premium & Payments', [
           _ServiceItem('Pay Premium', LucideIcons.credit_card, const Color(0xFF22C55E)),

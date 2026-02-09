@@ -29,7 +29,7 @@ class PartnerServicesGrid extends StatelessWidget {
           _ServiceItem('Profile', LucideIcons.search, const Color(0xFF64748B)),
         ]),
         
-        const SizedBox(height: 32),
+        const SizedBox(height: AppDimensions.sectionVerticalSpacing),
         
         _buildCategory('Money Transfer', [
           _ServiceItem('Top Up', LucideIcons.wallet, const Color(0xFF22C55E)),
@@ -39,7 +39,7 @@ class PartnerServicesGrid extends StatelessWidget {
           _ServiceItem('Transfer', LucideIcons.arrow_left_right, const Color(0xFFA855F7)),
         ]),
         
-        const SizedBox(height: 32),
+        const SizedBox(height: AppDimensions.sectionVerticalSpacing),
         
         _buildCategory('Loan Services', [
           _ServiceItem('Apply Loan', LucideIcons.file_text, const Color(0xFFF59E0B), route: '/loans'),

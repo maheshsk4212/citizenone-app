@@ -28,7 +28,7 @@ class MnoServicesGrid extends StatelessWidget {
           _ServiceItem('SMS Packages', LucideIcons.message_square, const Color(0xFF8B5CF6)),
         ]),
         
-        const SizedBox(height: 32),
+        const SizedBox(height: AppDimensions.sectionVerticalSpacing),
         
         _buildCategory('Mobile Money', [
           _ServiceItem('Send Money', LucideIcons.send, const Color(0xFF22C55E)),
@@ -37,7 +37,7 @@ class MnoServicesGrid extends StatelessWidget {
           _ServiceItem('Buy Goods', LucideIcons.shopping_cart, const Color(0xFF64748B)),
         ]),
         
-        const SizedBox(height: 32),
+        const SizedBox(height: AppDimensions.sectionVerticalSpacing),
         
         _buildCategory('Account Services', [
           _ServiceItem('Balance', LucideIcons.wallet, const Color(0xFF3B82F6)),

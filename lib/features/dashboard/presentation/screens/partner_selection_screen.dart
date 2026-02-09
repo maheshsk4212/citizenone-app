@@ -12,7 +12,13 @@ class PartnerSelectionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.only(
+        left: 24,
+        right: 24,
+        top: 24,
+        bottom: 120, // Use AppDimensions.scrollBottomPadding if available or literal
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -53,9 +59,8 @@ class PartnerSelectionScreen extends ConsumerWidget {
                contentPadding: const EdgeInsets.symmetric(vertical: 16),
              ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 24),
 
-          const SizedBox(height: 32),
 
           StaggeredEntryList(
             children: [
