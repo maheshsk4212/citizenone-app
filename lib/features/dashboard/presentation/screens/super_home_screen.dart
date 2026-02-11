@@ -84,7 +84,7 @@ class SuperHomeScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SectionHeader(title: 'Quick Actions'),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppDimensions.headerToContentSpacing),
                     QuickActions(role: role),
                   ],
                 ),

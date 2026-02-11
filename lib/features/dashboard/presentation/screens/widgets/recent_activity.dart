@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/core/design_system/tokens/typography.dart';
+import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 import 'package:citizenone_app/core/common/widgets/section_header.dart';
 
 class RecentActivity extends StatelessWidget {
@@ -16,7 +17,7 @@ class RecentActivity extends StatelessWidget {
           actionLabel: 'View All',
           onActionTap: () {},
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppDimensions.headerToContentSpacing),
         _buildPlaceholderRecentItem(
           'Grocery Store',
           'Today, 10:30 AM',
@@ -47,7 +48,7 @@ class RecentActivity extends StatelessWidget {
 
   Widget _buildPlaceholderRecentItem(String title, String subtitle, String amount, IconData icon, Color bg, Color iconColor) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.white,

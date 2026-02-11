@@ -12,11 +12,25 @@ class HeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Agent Theme: Purple
-    final bool isAgent = role == UserRole.agent;
-    final List<Color> gradientColors = isAgent
-        ? [const Color(0xFFA855F7), const Color(0xFF7E22CE)] // Purple
-        : [const Color(0xFFEFF6FF), const Color(0xFFDBEAFE)]; // Blue-50
+    // Determine Theme Colors based on Role
+    List<Color> gradientColors;
+    Color shadowColor;
+
+    switch (role) {
+      case UserRole.agent:
+        gradientColors = [const Color(0xFFA855F7), const Color(0xFF7E22CE)]; // Purple
+        shadowColor = Colors.purple.withOpacity(0.3);
+        break;
+      case UserRole.farmer:
+        gradientColors = [const Color(0xFF22C55E), const Color(0xFF15803D)]; // Green
+        shadowColor = Colors.green.withOpacity(0.3);
+        break;
+      case UserRole.citizen:
+      default:
+        gradientColors = [const Color(0xFFEFF6FF), const Color(0xFFDBEAFE)]; // Blue-50
+        shadowColor = Colors.blue.withOpacity(0.1);
+        break;
+    }
 
     return Center(
       child: ConstrainedBox(
@@ -31,7 +45,7 @@ class HeroCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: isAgent ? Colors.purple.withOpacity(0.3) : Colors.blue.withOpacity(0.1),
+                color: shadowColor,
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -39,8 +53,8 @@ class HeroCard extends StatelessWidget {
           ),
           clipBehavior: Clip.antiAlias,
           child: ResponsiveLayout.isDesktop(context)
-              ? _DesktopLayout(role: role, isAgent: isAgent)
-              : _MobileLayout(role: role, isAgent: isAgent),
+              ? _DesktopLayout(role: role)
+              : _MobileLayout(role: role),
         ),
       ),
     );
@@ -49,9 +63,8 @@ class HeroCard extends StatelessWidget {
 
 class _MobileLayout extends StatelessWidget {
   final UserRole role;
-  final bool isAgent;
 
-  const _MobileLayout({required this.role, required this.isAgent});
+  const _MobileLayout({required this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +73,11 @@ class _MobileLayout extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _HeaderRow(isAgent: isAgent),
+          _HeaderRow(role: role),
           const SizedBox(height: 24),
-          _MainValue(isAgent: isAgent),
+          _MainValue(role: role),
           const SizedBox(height: 24),
-          _ActionButtons(isAgent: isAgent, fullWidth: true),
+          _ActionButtons(role: role, fullWidth: true),
         ],
       ),
     );
@@ -73,46 +86,56 @@ class _MobileLayout extends StatelessWidget {
 
 class _DesktopLayout extends StatelessWidget {
   final UserRole role;
-  final bool isAgent;
 
-  const _DesktopLayout({required this.role, required this.isAgent});
+  const _DesktopLayout({required this.role});
 
   @override
   Widget build(BuildContext context) {
+    // White text for Agent/Farmer, Black for Citizen
+    final isDarkBg = role != UserRole.citizen;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20), // Reduced padding
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       child: Row(
         children: [
           Expanded(
-            flex: 4, // Increased emphasis on main value
+            flex: 4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _HeaderRow(isAgent: isAgent),
+                _HeaderRow(role: role),
                 const SizedBox(height: 12),
-                _MainValue(isAgent: isAgent),
+                _MainValue(role: role),
               ],
             ),
           ),
           Container(
             width: 1,
             height: 60,
-            color: isAgent ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.05),
+            color: isDarkBg ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.05),
             margin: const EdgeInsets.symmetric(horizontal: 20),
           ),
-          Flexible( // Changed from Expanded to Flexible
+          Flexible(
             flex: 3,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _ActionButtons(isAgent: isAgent, fullWidth: false),
-                 const SizedBox(height: 12),
-                 if (!isAgent)
+                _ActionButtons(role: role, fullWidth: false),
+                const SizedBox(height: 12),
+                if (role == UserRole.citizen)
                    Text('Due in 5 days', 
                      style: AppTypography.caption(context).copyWith(
                        color: AppColors.textSecondary,
+                       fontSize: 11
+                     ),
+                     overflow: TextOverflow.ellipsis,
+                   ),
+                 if (role == UserRole.farmer)
+                   Text('Heavy Rain Expected', 
+                     style: AppTypography.caption(context).copyWith(
+                       color: Colors.white.withOpacity(0.8),
                        fontSize: 11
                      ),
                      overflow: TextOverflow.ellipsis,
@@ -127,33 +150,53 @@ class _DesktopLayout extends StatelessWidget {
 }
 
 class _HeaderRow extends StatelessWidget {
-  final bool isAgent;
-  const _HeaderRow({required this.isAgent});
+  final UserRole role;
+  const _HeaderRow({required this.role});
 
   @override
   Widget build(BuildContext context) {
-    final Color textColor = isAgent ? Colors.white : AppColors.textPrimary;
+    final isDarkBg = role != UserRole.citizen;
+    
+    IconData icon;
+    String label;
+    
+    switch (role) {
+      case UserRole.agent:
+        icon = LucideIcons.zap;
+        label = 'AGENT PERFORMANCE';
+        break;
+      case UserRole.farmer:
+        icon = LucideIcons.cloud;
+        label = 'WEATHER ALERT';
+        break;
+      case UserRole.citizen:
+      default:
+        icon = LucideIcons.sparkles;
+        label = 'CITIZEN AI ALERT';
+        break;
+    }
+
     return Row(
       children: [
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: isAgent ? Colors.white.withOpacity(0.2) : const Color(0xFF2563EB).withOpacity(0.1),
+            color: isDarkBg ? Colors.white.withOpacity(0.2) : const Color(0xFF2563EB).withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
-            isAgent ? LucideIcons.zap : LucideIcons.sparkles,
+            icon,
             size: 16,
-            color: isAgent ? Colors.white : AppColors.primary,
+            color: isDarkBg ? Colors.white : AppColors.primary,
           ),
         ),
         const SizedBox(width: 12),
         Text(
-          isAgent ? 'AGENT PERFORMANCE' : 'CITIZEN AI ALERT',
+          label,
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
-            color: isAgent ? Colors.white.withOpacity(0.9) : AppColors.textSecondary,
+            color: isDarkBg ? Colors.white.withOpacity(0.9) : AppColors.textSecondary,
             letterSpacing: 0.5,
           ),
         ),
@@ -163,14 +206,15 @@ class _HeaderRow extends StatelessWidget {
 }
 
 class _MainValue extends StatelessWidget {
-  final bool isAgent;
-  const _MainValue({required this.isAgent});
+  final UserRole role;
+  const _MainValue({required this.role});
 
   @override
   Widget build(BuildContext context) {
-    final Color textColor = isAgent ? Colors.white : const Color(0xFF1E293B);
+    final isDarkBg = role != UserRole.citizen;
+    final textColor = isDarkBg ? Colors.white : const Color(0xFF1E293B);
     
-    if (isAgent) {
+    if (role == UserRole.agent) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -181,6 +225,20 @@ class _MainValue extends StatelessWidget {
       );
     }
     
+    if (role == UserRole.farmer) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Rainfall Alert', style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 13, fontWeight: FontWeight.w500)),
+          const SizedBox(height: 4),
+          const Text('Heavy Rain', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white)),
+          const SizedBox(height: 2),
+           Text('Expected in 2 days', style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 14)),
+        ],
+      );
+    }
+    
+    // Citizen Default
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -201,22 +259,22 @@ class _MainValue extends StatelessWidget {
 }
 
 class _ActionButtons extends StatelessWidget {
-  final bool isAgent;
+  final UserRole role;
   final bool fullWidth;
 
-  const _ActionButtons({required this.isAgent, required this.fullWidth});
+  const _ActionButtons({required this.role, required this.fullWidth});
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> buttons = [
       if (fullWidth)
-        Expanded(child: _PrimaryBtn(isAgent: isAgent))
+        Expanded(child: _PrimaryBtn(role: role))
       else 
-        _PrimaryBtn(isAgent: isAgent, width: 160),
+        _PrimaryBtn(role: role, width: 160),
         
       const SizedBox(width: 12),
       
-      _SecondaryBtn(isAgent: isAgent),
+      _SecondaryBtn(role: role),
     ];
 
     if (fullWidth) {
@@ -228,35 +286,46 @@ class _ActionButtons extends StatelessWidget {
 }
 
 class _PrimaryBtn extends StatelessWidget {
-  final bool isAgent;
+  final UserRole role;
   final double? width;
-  const _PrimaryBtn({required this.isAgent, this.width});
+  const _PrimaryBtn({required this.role, this.width});
 
   @override
   Widget build(BuildContext context) {
+    final isDarkBg = role != UserRole.citizen;
+    
+    String label;
+    switch (role) {
+      case UserRole.agent: label = 'View Tasks'; break;
+      case UserRole.farmer: label = 'View Forecast'; break;
+      case UserRole.citizen: default: label = 'Pay Now'; break;
+    }
+
     return SizedBox(
       height: 48,
       width: width,
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
-          backgroundColor: isAgent ? Colors.white : AppColors.primary,
-          foregroundColor: isAgent ? AppColors.primary : Colors.white,
+          backgroundColor: isDarkBg ? Colors.white : AppColors.primary,
+          foregroundColor: isDarkBg ? (role == UserRole.farmer ? const Color(0xFF15803D) : AppColors.primary) : Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
-        child: Text(isAgent ? 'View Tasks' : 'Pay Now', style: const TextStyle(fontWeight: FontWeight.bold)),
+        child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
     );
   }
 }
 
 class _SecondaryBtn extends StatelessWidget {
-  final bool isAgent;
-  const _SecondaryBtn({required this.isAgent});
+  final UserRole role;
+  const _SecondaryBtn({required this.role});
 
   @override
   Widget build(BuildContext context) {
+    final isDarkBg = role != UserRole.citizen;
+    
     return SizedBox(
       height: 48,
       width: 48,
@@ -264,9 +333,9 @@ class _SecondaryBtn extends StatelessWidget {
         onPressed: () {},
         style: OutlinedButton.styleFrom(
           padding: EdgeInsets.zero,
-          side: BorderSide(color: isAgent ? Colors.white.withOpacity(0.3) : Colors.grey.withOpacity(0.3)),
+          side: BorderSide(color: isDarkBg ? Colors.white.withOpacity(0.3) : Colors.grey.withOpacity(0.3)),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          foregroundColor: isAgent ? Colors.white : AppColors.textSecondary,
+          foregroundColor: isDarkBg ? Colors.white : AppColors.textSecondary,
         ),
         child: const Icon(LucideIcons.bell, size: 20),
       ),

@@ -5,7 +5,7 @@ import 'package:citizenone_app/core/common/widgets/press_scale_widget.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/core/design_system/tokens/typography.dart';
 import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
-import 'package:citizenone_app/core/common/widgets/section_header.dart';
+
 import 'package:citizenone_app/core/design_system/responsive.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 
@@ -62,6 +62,14 @@ class QuickActions extends StatelessWidget {
 
 
   List<_ActionItem> _getActions(UserRole role) {
+    if (role == UserRole.farmer) {
+      return [
+        _ActionItem('Agri Loan', LucideIcons.sprout, const Color(0xFFDCFCE7), const Color(0xFF16A34A), route: '/loans'), // Green
+        _ActionItem('Weather', LucideIcons.cloud, const Color(0xFFE0F2FE), const Color(0xFF0284C7)), // Sky
+        _ActionItem('Market', LucideIcons.shopping_cart, const Color(0xFFFFEDD5), const Color(0xFFEA580C), route: '/services/market'), // Orange
+        _ActionItem('Support', LucideIcons.life_buoy, const Color(0xFFF3F4F6), const Color(0xFF4B5563)), // Gray
+      ];
+    }
     if (role == UserRole.agent) {
       return [
         _ActionItem('Onboard', LucideIcons.user_plus, const Color(0xFFE0E7FF), const Color(0xFF4F46E5)), // Indigo

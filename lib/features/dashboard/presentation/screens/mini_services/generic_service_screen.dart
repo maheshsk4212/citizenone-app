@@ -65,7 +65,7 @@ class GenericServiceScreen extends StatelessWidget {
         QuickActionItem(icon: LucideIcons.search, label: 'Search', color: themeColor),
         QuickActionItem(icon: LucideIcons.history, label: 'History', color: themeColor),
         QuickActionItem(icon: LucideIcons.settings, label: 'Settings', color: themeColor),
-        QuickActionItem(icon: LucideIcons.help_circle, label: 'Help', color: Colors.grey),
+        QuickActionItem(icon: Icons.help_outline, label: 'Help', color: Colors.grey),
       ],
       services: [
         ServiceListItem(title: 'Service Option 1', onTap: () {}),

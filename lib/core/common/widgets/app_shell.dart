@@ -137,6 +137,7 @@ class AppShell extends ConsumerWidget {
               ],
             ),
             // Role Selector
+// Role Display (Static)
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
@@ -144,26 +145,25 @@ class AppShell extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: Colors.grey[200]!),
               ),
-              child: IntrinsicWidth(
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<UserRole>(
-                    value: role,
-                    isDense: true,
-                    icon: const Icon(Icons.keyboard_arrow_down, size: 16, color: AppColors.textSecondary),
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMain),
-                    onChanged: (UserRole? newRole) {
-                      if (newRole != null) {
-                        ref.read(authProvider.notifier).setRole(newRole);
-                      }
-                    },
-                    items: UserRole.values.map((UserRole r) {
-                      return DropdownMenuItem<UserRole>(
-                        value: r,
-                        child: Text(r.displayName),
-                      );
-                    }).toList(),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    role == UserRole.agent ? Icons.business_center : 
+                    role == UserRole.farmer ? Icons.agriculture : Icons.person,
+                    size: 14, 
+                    color: AppColors.primary
                   ),
-                ),
+                  const SizedBox(width: 6),
+                  Text(
+                    role.displayName, 
+                    style: const TextStyle(
+                      fontSize: 12, 
+                      fontWeight: FontWeight.bold, 
+                      color: AppColors.textMain
+                    )
+                  ),
+                ],
               ),
             ),
           ],
