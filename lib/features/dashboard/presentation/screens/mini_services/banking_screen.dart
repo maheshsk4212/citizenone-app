@@ -123,7 +123,7 @@ class BankingScreen extends StatelessWidget {
 
             // ── Quick Actions ──
             const SectionHeader(title: 'Quick Actions'),
-            const SizedBox(height: AppDimensions.headerToContentSpacing),
+            SizedBox(height: AppDimensions.headerToContentSpacing),
             
             // Updated style: No Card wrapper, rounded square icons
             Row(
@@ -157,11 +157,11 @@ class BankingScreen extends StatelessWidget {
               ],
             ),
             
-            const SizedBox(height: AppDimensions.sectionVerticalSpacing),
+            SizedBox(height: AppDimensions.sectionVerticalSpacing),
 
             // ── Accounts ──
             const SectionHeader(title: 'Accounts'),
-            const SizedBox(height: AppDimensions.headerToContentSpacing),
+            SizedBox(height: AppDimensions.headerToContentSpacing),
             _buildSectionCard(
               title: 'Accounts',
               child: _buildServiceRow([
@@ -172,11 +172,11 @@ class BankingScreen extends StatelessWidget {
               ]), cardTitle: ''
             ),
 
-            const SizedBox(height: AppDimensions.sectionVerticalSpacing),
+            SizedBox(height: AppDimensions.sectionVerticalSpacing),
 
             // ── Loans ──
             const SectionHeader(title: 'Loans'),
-            const SizedBox(height: AppDimensions.headerToContentSpacing),
+            SizedBox(height: AppDimensions.headerToContentSpacing),
             _buildSectionCard(
               title: 'Loans',
               child: Column(
@@ -198,11 +198,11 @@ class BankingScreen extends StatelessWidget {
               ), cardTitle: ''
             ),
 
-            const SizedBox(height: AppDimensions.sectionVerticalSpacing),
+            SizedBox(height: AppDimensions.sectionVerticalSpacing),
 
             // ── Cards ──
             const SectionHeader(title: 'Cards'),
-            const SizedBox(height: AppDimensions.headerToContentSpacing),
+            SizedBox(height: AppDimensions.headerToContentSpacing),
             _buildSectionCard(
               title: 'Cards',
               child: Column(
@@ -224,7 +224,7 @@ class BankingScreen extends StatelessWidget {
               ), cardTitle: ''
             ),
             
-            const SizedBox(height: AppDimensions.scrollBottomPadding),
+            SizedBox(height: AppDimensions.scrollBottomPadding),
           ],
         ),
       ),

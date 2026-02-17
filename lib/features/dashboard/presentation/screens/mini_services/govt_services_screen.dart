@@ -94,7 +94,7 @@ class GovtServicesScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: AppDimensions.sectionVerticalSpacing),
+            SizedBox(height: AppDimensions.sectionVerticalSpacing),
 
             // ── Quick Actions ──
             _buildSectionCard(
@@ -130,7 +130,7 @@ class GovtServicesScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: AppDimensions.sectionVerticalSpacing),
+            SizedBox(height: AppDimensions.sectionVerticalSpacing),
 
             // ── Health ──
             _buildSectionCard(
@@ -143,7 +143,7 @@ class GovtServicesScreen extends StatelessWidget {
               ]),
             ),
 
-            const SizedBox(height: AppDimensions.sectionVerticalSpacing),
+            SizedBox(height: AppDimensions.sectionVerticalSpacing),
 
             // ── Education ──
             _buildSectionCard(
