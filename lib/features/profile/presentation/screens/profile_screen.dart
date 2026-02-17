@@ -5,6 +5,7 @@ import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/features/auth/presentation/providers/auth_provider.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 
 // ═══════════════════════════════════════════════════════════════════
 //  PROFILE SCREEN — Scroll-Optimized • Tab-Based • Production UX
