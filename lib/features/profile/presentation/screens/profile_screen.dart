@@ -60,7 +60,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       color: const Color(0xFFF7F8FA),
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, AppDimensions.scrollBottomPadding),
+        padding: EdgeInsets.fromLTRB(16, 16, 16, AppDimensions.scrollBottomPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
