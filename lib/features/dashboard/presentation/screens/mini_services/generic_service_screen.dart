@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:citizenone_app/core/common/widgets/mini_service_scaffold.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
+import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 
 class GenericServiceScreen extends StatelessWidget {

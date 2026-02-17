@@ -52,7 +52,7 @@ class MiniServiceScaffold extends StatelessWidget {
           children: [
             // Hero Section
             hero,
-            const SizedBox(height: 24),
+            const SizedBox(height: AppDimensions.sectionVerticalSpacing),
 
             // Quick Actions
             const Text(
@@ -64,12 +64,12 @@ class MiniServiceScaffold extends StatelessWidget {
                 letterSpacing: 0.5,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppDimensions.headerToContentSpacing),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: quickActions.map((action) => _buildQuickAction(action)).toList(),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppDimensions.sectionVerticalSpacing),
 
             // Services List
             const Text(
@@ -81,12 +81,12 @@ class MiniServiceScaffold extends StatelessWidget {
                 letterSpacing: 0.5,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppDimensions.headerToContentSpacing),
             ...services.map((service) => _buildServiceItem(service)),
 
             // AI Insight (Optional)
             if (aiInsight != null) ...[
-              const SizedBox(height: 32),
+              const SizedBox(height: AppDimensions.sectionVerticalSpacing),
               const Row(
                 children: [
                    Icon(LucideIcons.sparkles, size: 16, color: Color(0xFFF97316)),
