@@ -108,20 +108,21 @@ class SuperHomeScreen extends ConsumerWidget {
             ],
     
             // Services section (Desktop starts here in slivers, Mobile continues)
-            SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 48 : AppDimensions.sectionVerticalSpacing)),
-            
-            // Services Section
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                child: SectionHeader(
-                  title: 'All Services',
-                  actionLabel: 'View All',
-                  onActionTap: () => context.push('/services'),
+            if (!(workContext == 'Partner' && authState.partnerType == 'Bank')) ...[
+              SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 48 : AppDimensions.sectionVerticalSpacing)),
+              
+              // Services Section
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  child: SectionHeader(
+                    title: 'All Services',
+                    actionLabel: 'View All',
+                    onActionTap: () => context.push('/services'),
+                  ),
                 ),
               ),
-            ),
-              
+                
               SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 16 : AppDimensions.headerToContentSpacing)),
               
               SliverPadding(
@@ -142,6 +143,7 @@ class SuperHomeScreen extends ConsumerWidget {
                 ),
               ),
               SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 40 : AppDimensions.sectionVerticalSpacing)),
+            ],
               
               if (role == UserRole.agent) ...[
                  // Agent Insights
