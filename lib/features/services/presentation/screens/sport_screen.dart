@@ -56,15 +56,15 @@ class SportScreen extends StatelessWidget {
         ),
       ),
       quickActions: [
-        QuickActionItem(icon: LucideIcons.dumbbell, label: 'Workouts', color: const Color(0xFF10B981)),
-        QuickActionItem(icon: LucideIcons.trophy, label: 'Events', color: const Color(0xFFFBBF24)),
-        QuickActionItem(icon: LucideIcons.users, label: 'Community', color: const Color(0xFF3B82F6)),
-        QuickActionItem(icon: LucideIcons.calendar, label: 'Book', color: const Color(0xFF64748B)),
+        QuickActionData(icon: LucideIcons.dumbbell, label: 'Workouts', color: const Color(0xFF10B981)),
+        QuickActionData(icon: LucideIcons.trophy, label: 'Events', color: const Color(0xFFFBBF24)),
+        QuickActionData(icon: LucideIcons.users, label: 'Community', color: const Color(0xFF3B82F6)),
+        QuickActionData(icon: LucideIcons.calendar, label: 'Book', color: const Color(0xFF64748B)),
       ],
       services: [
-        ServiceListItem(title: 'Local Sports Facilities', onTap: () {}),
-        ServiceListItem(title: 'Mental Wellness Guides', onTap: () {}),
-        ServiceListItem(title: 'Meditation Zone', onTap: () {}),
+        ServiceListData(title: 'Local Sports Facilities', onTap: () {}),
+        ServiceListData(title: 'Mental Wellness Guides', onTap: () {}),
+        ServiceListData(title: 'Meditation Zone', onTap: () {}),
       ],
        aiInsight: Container(
         padding: const EdgeInsets.all(16),

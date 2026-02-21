@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:go_router/go_router.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
-import 'package:citizenone_app/core/design_system/tokens/typography.dart';
 import 'package:citizenone_app/core/common/widgets/section_header.dart';
+import 'package:citizenone_app/core/common/widgets/quick_action_button.dart';
+import 'package:citizenone_app/core/common/widgets/service_list_tile.dart';
 import 'package:citizenone_app/core/design_system/responsive.dart';
 
 class AgriServiceScreen extends StatelessWidget {
@@ -153,10 +154,30 @@ class AgriServiceScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildQuickActionItem('Agri Loan', LucideIcons.sprout, const Color(0xFFF0FDF4), const Color(0xFF16A34A)), // Light Green
-                  _buildQuickActionItem('Buy Inputs', LucideIcons.shopping_cart, const Color(0xFFFFF7ED), const Color(0xFFEA580C)), // Orange
-                  _buildQuickActionItem('Sell Crop', LucideIcons.shopping_cart, const Color(0xFFEFF6FF), const Color(0xFF2563EB)), // Blue
-                  _buildQuickActionItem('Insurance', LucideIcons.shield_check, const Color(0xFFFEF2F2), const Color(0xFFDC2626)), // Red
+                  QuickActionButton(
+                    label: 'Agri Loan',
+                    icon: LucideIcons.sprout,
+                    bgColor: const Color(0xFFF0FDF4),
+                    iconColor: const Color(0xFF16A34A),
+                  ),
+                  QuickActionButton(
+                    label: 'Buy Inputs',
+                    icon: LucideIcons.shopping_cart,
+                    bgColor: const Color(0xFFFFF7ED),
+                    iconColor: const Color(0xFFEA580C),
+                  ),
+                  QuickActionButton(
+                    label: 'Sell Crop',
+                    icon: LucideIcons.shopping_cart,
+                    bgColor: const Color(0xFFEFF6FF),
+                    iconColor: const Color(0xFF2563EB),
+                  ),
+                  QuickActionButton(
+                    label: 'Insurance',
+                    icon: LucideIcons.shield_check,
+                    bgColor: const Color(0xFFFEF2F2),
+                    iconColor: const Color(0xFFDC2626),
+                  ),
                 ],
               ),
             ),
@@ -177,9 +198,9 @@ class AgriServiceScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
               child: Column(
                 children: [
-                  _buildServiceListItem('Crop Advisory Services', LucideIcons.arrow_up_right),
-                  _buildServiceListItem('Mandi Prices Live', LucideIcons.arrow_up_right),
-                  _buildServiceListItem('Soil Health Card', LucideIcons.arrow_up_right),
+                  ServiceListTile(title: 'Crop Advisory Services'),
+                  ServiceListTile(title: 'Mandi Prices Live'),
+                  ServiceListTile(title: 'Soil Health Card'),
                 ],
               ),
             ),
@@ -281,80 +302,4 @@ class AgriServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActionItem(String label, IconData icon, Color bgColor, Color iconColor) {
-    return Column(
-      children: [
-        Container(
-          width: 64,
-          height: 64,
-          decoration: BoxDecoration(
-            color: bgColor, 
-            borderRadius: BorderRadius.circular(20),
-             border: Border.all(color: Colors.transparent), 
-          ),
-           child: Center(
-             child: Icon(icon, color: iconColor, size: 24),
-           ),
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          width: 70,
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildServiceListItem(String title, IconData icon) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.withOpacity(0.1)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.grey[50], // Very light grey
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, size: 18, color: Colors.grey[400]),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ),
-           Icon(Icons.chevron_right, color: Colors.grey[400]),
-        ],
-      ),
-    );
-  }
 }

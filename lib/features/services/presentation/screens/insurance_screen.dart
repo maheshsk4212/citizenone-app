@@ -59,28 +59,28 @@ class InsuranceScreen extends StatelessWidget {
         ),
       ),
       quickActions: [
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.plus,
           label: 'Buy New',
           backgroundColor: const Color(0xFFFEE2E2), // Red-100
           iconColor: const Color(0xFFEF4444), // Red-500
           onTap: () {},
         ),
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.refresh_cw,
           label: 'Renew',
           backgroundColor: const Color(0xFFFFEAD0), // Orange-100 (approx)
           iconColor: const Color(0xFFF97316), // Orange-500
           onTap: () {},
         ),
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.file_text,
           label: 'Claim',
           backgroundColor: const Color(0xFFF3F4F6), // Gray-100
           iconColor: const Color(0xFF4B5563), // Gray-600
           onTap: () {},
         ),
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.shield,
           label: 'My Policies',
           backgroundColor: const Color(0xFFDBEAFE), // Blue-100
@@ -89,9 +89,9 @@ class InsuranceScreen extends StatelessWidget {
         ),
       ],
       services: [
-        ServiceListItem(title: 'Network Hospitals', onTap: () {}),
-        ServiceListItem(title: 'Download Policy Copy', onTap: () {}),
-        ServiceListItem(title: 'Claim Status', onTap: () {}),
+        ServiceListData(title: 'Network Hospitals', onTap: () {}),
+        ServiceListData(title: 'Download Policy Copy', onTap: () {}),
+        ServiceListData(title: 'Claim Status', onTap: () {}),
       ],
       aiInsight: Container(
         padding: const EdgeInsets.all(16),

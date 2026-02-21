@@ -64,15 +64,15 @@ class HealthEzyScreen extends StatelessWidget {
         ),
       ),
       quickActions: [
-        QuickActionItem(icon: LucideIcons.activity, label: 'Vitals', color: const Color(0xFFF43F5E)),
-        QuickActionItem(icon: LucideIcons.pill, label: 'Medicines', color: const Color(0xFF3B82F6)),
-        QuickActionItem(icon: LucideIcons.flask_conical, label: 'Lab Tests', color: const Color(0xFFF59E0B)),
-        QuickActionItem(icon: LucideIcons.file_text, label: 'Records', color: const Color(0xFF64748B)),
+        QuickActionData(icon: LucideIcons.activity, label: 'Vitals', color: const Color(0xFFF43F5E)),
+        QuickActionData(icon: LucideIcons.pill, label: 'Medicines', color: const Color(0xFF3B82F6)),
+        QuickActionData(icon: LucideIcons.flask_conical, label: 'Lab Tests', color: const Color(0xFFF59E0B)),
+        QuickActionData(icon: LucideIcons.file_text, label: 'Records', color: const Color(0xFF64748B)),
       ],
       services: [
-        ServiceListItem(title: 'Symptom Checker', onTap: () {}),
-        ServiceListItem(title: 'Vaccination History', onTap: () {}),
-        ServiceListItem(title: 'Find Hospitals Nearby', onTap: () {}),
+        ServiceListData(title: 'Symptom Checker', onTap: () {}),
+        ServiceListData(title: 'Vaccination History', onTap: () {}),
+        ServiceListData(title: 'Find Hospitals Nearby', onTap: () {}),
       ],
       aiInsight: Container(
         padding: const EdgeInsets.all(16),

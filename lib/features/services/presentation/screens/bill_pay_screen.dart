@@ -56,15 +56,15 @@ class BillPayScreen extends StatelessWidget {
         ),
       ),
       quickActions: [
-        QuickActionItem(icon: LucideIcons.zap, label: 'Electricity', color: const Color(0xFFEAB308)),
-        QuickActionItem(icon: LucideIcons.droplets, label: 'Water', color: const Color(0xFF3B82F6)),
-        QuickActionItem(icon: LucideIcons.smartphone, label: 'Mobile', color: const Color(0xFFA855F7)),
-        QuickActionItem(icon: LucideIcons.plus, label: 'Add New', color: const Color(0xFF64748B)),
+        QuickActionData(icon: LucideIcons.zap, label: 'Electricity', color: const Color(0xFFEAB308)),
+        QuickActionData(icon: LucideIcons.droplets, label: 'Water', color: const Color(0xFF3B82F6)),
+        QuickActionData(icon: LucideIcons.smartphone, label: 'Mobile', color: const Color(0xFFA855F7)),
+        QuickActionData(icon: LucideIcons.plus, label: 'Add New', color: const Color(0xFF64748B)),
       ],
       services: [
-        ServiceListItem(title: 'Payment History', onTap: () {}),
-        ServiceListItem(title: 'Manage Billers', onTap: () {}),
-        ServiceListItem(title: 'Auto-Pay Settings', onTap: () {}),
+        ServiceListData(title: 'Payment History', onTap: () {}),
+        ServiceListData(title: 'Manage Billers', onTap: () {}),
+        ServiceListData(title: 'Auto-Pay Settings', onTap: () {}),
       ],
       aiInsight: Container(
         padding: const EdgeInsets.all(16),

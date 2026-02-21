@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:go_router/go_router.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
-import 'package:citizenone_app/core/design_system/tokens/typography.dart';
 import 'package:citizenone_app/core/common/widgets/section_header.dart';
+import 'package:citizenone_app/core/common/widgets/quick_action_button.dart';
+import 'package:citizenone_app/core/common/widgets/service_list_tile.dart';
 import 'package:citizenone_app/core/design_system/responsive.dart';
 
 class MarketplaceServiceScreen extends StatelessWidget {
@@ -118,10 +119,30 @@ class MarketplaceServiceScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildQuickActionItem('List Item', LucideIcons.package_plus, const Color(0xFFFCE7F3), pinkColor), // Light Pink
-                  _buildQuickActionItem('Orders', LucideIcons.list_ordered, const Color(0xFFEFF6FF), const Color(0xFF2563EB)), // Blue
-                  _buildQuickActionItem('Logistics', LucideIcons.truck, const Color(0xFFFFF7ED), const Color(0xFFEA580C)), // Orange
-                  _buildQuickActionItem('My Store', LucideIcons.store, const Color(0xFFF3F4F6), const Color(0xFF4B5563)), // Grey
+                  QuickActionButton(
+                    label: 'List Item',
+                    icon: LucideIcons.package_plus,
+                    bgColor: const Color(0xFFFCE7F3),
+                    iconColor: pinkColor,
+                  ),
+                  QuickActionButton(
+                    label: 'Orders',
+                    icon: LucideIcons.list_ordered,
+                    bgColor: const Color(0xFFEFF6FF),
+                    iconColor: const Color(0xFF2563EB),
+                  ),
+                  QuickActionButton(
+                    label: 'Logistics',
+                    icon: LucideIcons.truck,
+                    bgColor: const Color(0xFFFFF7ED),
+                    iconColor: const Color(0xFFEA580C),
+                  ),
+                  QuickActionButton(
+                    label: 'My Store',
+                    icon: LucideIcons.store,
+                    bgColor: const Color(0xFFF3F4F6),
+                    iconColor: const Color(0xFF4B5563),
+                  ),
                 ],
               ),
             ),
@@ -142,9 +163,9 @@ class MarketplaceServiceScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
               child: Column(
                 children: [
-                  _buildServiceListItem('Product Catalog', LucideIcons.arrow_up_right),
-                  _buildServiceListItem('Customer Reviews', LucideIcons.arrow_up_right),
-                  _buildServiceListItem('Seller Support', LucideIcons.arrow_up_right),
+                  ServiceListTile(title: 'Product Catalog'),
+                  ServiceListTile(title: 'Customer Reviews'),
+                  ServiceListTile(title: 'Seller Support'),
                 ],
               ),
             ),
@@ -270,80 +291,4 @@ class MarketplaceServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActionItem(String label, IconData icon, Color bgColor, Color iconColor) {
-    return Column(
-      children: [
-        Container(
-          width: 64,
-          height: 64,
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: BorderRadius.circular(20),
-            // border: Border.all(color: Colors.grey.withOpacity(0.1)),
-          ),
-          child: Center(
-            child: Icon(icon, color: iconColor, size: 24),
-          ),
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          width: 70,
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildServiceListItem(String title, IconData icon) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.withOpacity(0.1)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.grey[50], // Very light grey
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, size: 18, color: Colors.grey[400]),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ),
-           Icon(Icons.chevron_right, color: Colors.grey[400]),
-        ],
-      ),
-    );
-  }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/core/design_system/tokens/typography.dart';
-import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 
 class SectionHeader extends StatelessWidget {
   final String title;

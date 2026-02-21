@@ -93,28 +93,28 @@ class MobileRechargeScreen extends StatelessWidget {
         ),
       ),
       quickActions: [
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.smartphone_charging,
           label: 'Recharge',
           backgroundColor: const Color(0xFFF3E8FF), // Purple-100
           iconColor: const Color(0xFF9333EA), // Purple-600
           onTap: () {},
         ),
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.wifi,
           label: 'Data Pack',
           backgroundColor: const Color(0xFFDBEAFE), // Blue-100
           iconColor: const Color(0xFF2563EB), // Blue-600
           onTap: () {},
         ),
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.credit_card,
           label: 'Pay Bill',
           backgroundColor: const Color(0xFFFFEDD5), // Orange-100
           iconColor: const Color(0xFFC2410C), // Orange-700
           onTap: () {},
         ),
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.history,
           label: 'History',
           backgroundColor: const Color(0xFFF3F4F6), // Gray-100
@@ -123,9 +123,9 @@ class MobileRechargeScreen extends StatelessWidget {
         ),
       ],
       services: [
-        ServiceListItem(title: 'Popular Plans', onTap: () {}),
-        ServiceListItem(title: 'Family Accounts', onTap: () {}),
-        ServiceListItem(title: 'Roaming Services', onTap: () {}),
+        ServiceListData(title: 'Popular Plans', onTap: () {}),
+        ServiceListData(title: 'Family Accounts', onTap: () {}),
+        ServiceListData(title: 'Roaming Services', onTap: () {}),
       ],
       aiInsight: Container(
         padding: const EdgeInsets.all(16),

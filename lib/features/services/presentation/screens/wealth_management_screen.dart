@@ -58,15 +58,15 @@ class WealthManagementScreen extends StatelessWidget {
         ),
       ),
       quickActions: [
-        QuickActionItem(icon: LucideIcons.trending_up, label: 'Invest', color: const Color(0xFF6366F1)),
-        QuickActionItem(icon: LucideIcons.circle_dollar_sign, label: 'Funds', color: const Color(0xFF10B981)),
-        QuickActionItem(icon: LucideIcons.piggy_bank, label: 'SIPs', color: const Color(0xFFEC4899)),
-        QuickActionItem(icon: LucideIcons.briefcase, label: 'Advisory', color: const Color(0xFF64748B)),
+        QuickActionData(icon: LucideIcons.trending_up, label: 'Invest', color: const Color(0xFF6366F1)),
+        QuickActionData(icon: LucideIcons.circle_dollar_sign, label: 'Funds', color: const Color(0xFF10B981)),
+        QuickActionData(icon: LucideIcons.piggy_bank, label: 'SIPs', color: const Color(0xFFEC4899)),
+        QuickActionData(icon: LucideIcons.briefcase, label: 'Advisory', color: const Color(0xFF64748B)),
       ],
       services: [
-        ServiceListItem(title: 'Mutual Fund Operations', onTap: () {}),
-        ServiceListItem(title: 'Fixed Deposits', onTap: () {}),
-        ServiceListItem(title: 'Pension Plans (NPS)', onTap: () {}),
+        ServiceListData(title: 'Mutual Fund Operations', onTap: () {}),
+        ServiceListData(title: 'Fixed Deposits', onTap: () {}),
+        ServiceListData(title: 'Pension Plans (NPS)', onTap: () {}),
       ],
       aiInsight: Container(
         padding: const EdgeInsets.all(16),

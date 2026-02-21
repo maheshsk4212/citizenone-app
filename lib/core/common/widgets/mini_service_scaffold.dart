@@ -2,14 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:citizenone_app/core/design_system/tokens/colors.dart';
 import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/widgets/hero_card.dart'; // Reusing for consistency, or pass custom
+import 'package:citizenone_app/core/common/widgets/quick_action_button.dart';
+import 'package:citizenone_app/core/common/widgets/service_list_tile.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 
+/// A reusable scaffold for mini-service screens.
+///
+/// Provides a consistent layout with:
+/// - AppBar with title and back button
+/// - Hero section (custom widget)
+/// - Quick Actions row
+/// - Services list
+/// - Optional AI Insight card
+///
+/// Screens using this: HealthEzy, Insurance, Sport, etc.
 class MiniServiceScaffold extends StatelessWidget {
   final String title;
   final Widget hero;
-  final List<QuickActionItem> quickActions;
-  final List<ServiceListItem> services;
+  final List<QuickActionData> quickActions;
+  final List<ServiceListData> services;
   final Widget? aiInsight;
 
   const MiniServiceScaffold({
@@ -67,7 +78,17 @@ class MiniServiceScaffold extends StatelessWidget {
             SizedBox(height: AppDimensions.headerToContentSpacing),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: quickActions.map((action) => _buildQuickAction(action)).toList(),
+              children: quickActions
+                  .map((action) => QuickActionButton.fromData(
+                        icon: action.icon,
+                        label: action.label,
+                        color: action.color,
+                        backgroundColor: action.backgroundColor,
+                        iconColor: action.iconColor,
+                        onTap: action.onTap,
+                        style: QuickActionStyle.circle,
+                      ))
+                  .toList(),
             ),
             SizedBox(height: AppDimensions.sectionVerticalSpacing),
 
@@ -82,16 +103,20 @@ class MiniServiceScaffold extends StatelessWidget {
               ),
             ),
             SizedBox(height: AppDimensions.headerToContentSpacing),
-            ...services.map((service) => _buildServiceItem(service)),
+            ...services.map((service) => ServiceListTile(
+                  title: service.title,
+                  onTap: service.onTap,
+                )),
 
             // AI Insight (Optional)
             if (aiInsight != null) ...[
               SizedBox(height: AppDimensions.sectionVerticalSpacing),
-              const Row(
+              Row(
                 children: [
-                   Icon(LucideIcons.sparkles, size: 16, color: Color(0xFFF97316)),
-                   SizedBox(width: 6),
-                   Text(
+                  const Icon(LucideIcons.sparkles,
+                      size: 16, color: Color(0xFFF97316)),
+                  const SizedBox(width: 6),
+                  const Text(
                     'AI ASSISTANTS',
                     style: TextStyle(
                       fontSize: 12,
@@ -105,105 +130,42 @@ class MiniServiceScaffold extends StatelessWidget {
               const SizedBox(height: 12),
               aiInsight!,
             ],
-            
+
             const SizedBox(height: AppDimensions.scrollBottomPadding),
           ],
         ),
       ),
     );
   }
-
-  Widget _buildQuickAction(QuickActionItem action) {
-    return Column(
-      children: [
-        Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: action.backgroundColor ?? action.color ?? AppColors.primary,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            action.icon, 
-            color: action.iconColor ?? Colors.white, 
-            size: 24
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          action.label,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildServiceItem(ServiceListItem service) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[100]!),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        leading: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF3F4F6),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Icon(LucideIcons.arrow_up_right, size: 18, color: AppColors.textSecondary),
-        ),
-        title: Text(
-          service.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        trailing: const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
-        onTap: service.onTap,
-      ),
-    );
-  }
 }
 
-class QuickActionItem {
+// ── Data Models ──
+// These replace the old QuickActionItem and ServiceListItem classes
+// that were defined inside this file.
+
+/// Data model for quick action items in [MiniServiceScaffold].
+class QuickActionData {
   final IconData icon;
   final String label;
-  final Color? color; // Legacy support: used as background if backgroundColor not provided
+  final Color? color;
   final Color? backgroundColor;
   final Color? iconColor;
   final VoidCallback? onTap;
 
-  QuickActionItem({
-    required this.icon, 
-    required this.label, 
-    this.color, 
+  QuickActionData({
+    required this.icon,
+    required this.label,
+    this.color,
     this.backgroundColor,
     this.iconColor,
     this.onTap,
   });
 }
 
-class ServiceListItem {
+/// Data model for service list items in [MiniServiceScaffold].
+class ServiceListData {
   final String title;
   final VoidCallback? onTap;
 
-  ServiceListItem({required this.title, this.onTap});
+  ServiceListData({required this.title, this.onTap});
 }

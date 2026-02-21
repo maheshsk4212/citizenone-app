@@ -16,19 +16,19 @@ import 'package:citizenone_app/features/services/presentation/screens/services_h
 import 'package:citizenone_app/features/services/presentation/screens/service_screens.dart';
 import 'package:citizenone_app/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:citizenone_app/features/profile/presentation/screens/profile_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/sport_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/health_ezy_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/wealth_management_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/bill_pay_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/agri_service_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/logistics_service_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/sme_service_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/marketplace_service_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/insurance_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/govt_services_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/common_services_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/banking_screen.dart';
-import 'package:citizenone_app/features/dashboard/presentation/screens/mini_services/mobile_recharge_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/sport_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/health_ezy_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/wealth_management_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/bill_pay_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/agri_service_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/logistics_service_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/sme_service_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/marketplace_service_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/insurance_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/govt_services_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/common_services_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/banking_screen.dart';
+import 'package:citizenone_app/features/services/presentation/screens/mobile_recharge_screen.dart';
 import 'package:citizenone_app/core/common/widgets/service_placeholder_screen.dart';
 
 final appRouter = GoRouter(

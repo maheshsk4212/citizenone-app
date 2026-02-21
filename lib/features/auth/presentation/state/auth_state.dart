@@ -1,39 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 
-class AuthState {
-  final UserRole selectedRole;
-  final bool isAuthenticated;
-  final String workContext;
-  final String? selectedPartner;
-  final IconData? partnerIcon;
-  final String? partnerType; // 'Bank', 'Insurance', 'MNO'
+part 'auth_state.freezed.dart';
 
-  const AuthState({
-    this.selectedRole = UserRole.citizen,
-    this.isAuthenticated = false,
-    this.workContext = 'CitizenOne',
-    this.selectedPartner,
-    this.partnerIcon,
-    this.partnerType,
-  });
-
-  AuthState copyWith({
-    UserRole? selectedRole,
-    bool? isAuthenticated,
-    String? workContext,
+@freezed
+class AuthState with _$AuthState {
+  const factory AuthState({
+    @Default(UserRole.citizen) UserRole selectedRole,
+    @Default(false) bool isAuthenticated,
+    @Default('CitizenOne') String workContext,
     String? selectedPartner,
     IconData? partnerIcon,
     String? partnerType,
-    bool clearPartner = false,
-  }) {
-    return AuthState(
-      selectedRole: selectedRole ?? this.selectedRole,
-      isAuthenticated: isAuthenticated ?? this.isAuthenticated,
-      workContext: workContext ?? this.workContext,
-      selectedPartner: clearPartner ? null : (selectedPartner ?? this.selectedPartner),
-      partnerIcon: clearPartner ? null : (partnerIcon ?? this.partnerIcon),
-      partnerType: clearPartner ? null : (partnerType ?? this.partnerType),
-    );
-  }
+  }) = _AuthState;
 }

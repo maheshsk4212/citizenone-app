@@ -28,7 +28,9 @@ class AuthNotifier extends Notifier<AuthState> {
 
   void clearPartner() {
     state = state.copyWith(
-      clearPartner: true,
+      selectedPartner: null,
+      partnerIcon: null,
+      partnerType: null,
       workContext: 'Partner',
     );
   }

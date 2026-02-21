@@ -107,8 +107,8 @@ class SuperHomeScreen extends ConsumerWidget {
                ),
             ],
     
-            // Services section (Desktop starts here in slivers, Mobile continues)
-            if (!(workContext == 'Partner' && authState.partnerType == 'Bank')) ...[
+            if (workContext != 'Partner') ...[
+              // Services section (Desktop starts here in slivers, Mobile continues)
               SliverToBoxAdapter(child: SizedBox(height: ResponsiveLayout.isDesktop(context) ? 48 : AppDimensions.sectionVerticalSpacing)),
               
               // Services Section

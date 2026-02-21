@@ -7,6 +7,7 @@ import 'package:citizenone_app/core/design_system/tokens/typography.dart';
 import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 
 import 'package:citizenone_app/core/design_system/responsive.dart';
+import 'package:citizenone_app/core/common/widgets/quick_action_button.dart';
 import 'package:citizenone_app/features/auth/domain/entities/user_role.dart';
 
 class QuickActions extends StatelessWidget {
@@ -88,42 +89,16 @@ class QuickActions extends StatelessWidget {
   }
 
   Widget _buildActionItem(BuildContext context, _ActionItem action) {
-    return PressScaleWidget(
-      onPressed: () {
+    return QuickActionButton(
+      label: action.label,
+      icon: action.icon,
+      bgColor: action.bgColor,
+      iconColor: action.iconColor,
+      onTap: () {
         if (action.route != null) {
           context.push(action.route!);
         }
       },
-      child: Column(
-        mainAxisSize: MainAxisSize.min, // Important for Wrap/Row alignment
-        children: [
-          Container(
-            width: AppDimensions.iconBoxSize, 
-            height: AppDimensions.iconBoxSize,
-            decoration: BoxDecoration(
-              color: action.bgColor,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: action.iconColor.withValues(alpha: 0.15),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                )
-              ]
-            ),
-            child: Icon(action.icon, size: AppDimensions.iconSize, color: action.iconColor),
-          ),
-          const SizedBox(height: AppDimensions.iconToLabelGap),
-          Text(
-            action.label,
-            style: AppTypography.caption(context).copyWith(
-              fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
     );
   }
 }

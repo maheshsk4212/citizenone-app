@@ -62,19 +62,39 @@ class AppTypography {
     height: 1.2,
     letterSpacing: 0.2,
   );
-  
-  // -- Legacy Support (Deprecated) --
-  // These map to new styles but ensure existing code doesn't break immediately
+
+  // -- Specialized Styles --
+
+  /// Label Small: Badges, pills, tags (10-11px)
+  static TextStyle labelSmall(BuildContext context) => TextStyle(
+    fontSize: ResponsiveLayout.isDesktop(context) ? 11 : 10,
+    fontWeight: FontWeight.w700,
+    color: AppColors.textMuted,
+    letterSpacing: 1.0,
+    height: 1.2,
+  );
+
+  /// Hero Value: Large numbers on hero cards (Desktop: 48px, Mobile: 40px)
+  static TextStyle heroValue(BuildContext context) => TextStyle(
+    fontSize: ResponsiveLayout.isDesktop(context) ? 48 : 40,
+    fontWeight: FontWeight.w800,
+    color: Colors.white,
+    height: 1.0,
+  );
+
+  /// Status Text: Inline status messages (13px)
+  static TextStyle statusText(BuildContext context) => const TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+    height: 1.4,
+  );
+
+  /// Section Header: Used by SectionHeader widget
   static const TextStyle sectionHeader = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
     letterSpacing: 0.2,
-  );
-
-  static const TextStyle gridItemLabel = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
-    color: AppColors.textPrimary,
   );
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:citizenone_app/core/common/widgets/mini_service_scaffold.dart';
-import 'package:citizenone_app/core/design_system/tokens/colors.dart';
-import 'package:citizenone_app/core/design_system/tokens/dimensions.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 
 class GenericServiceScreen extends StatelessWidget {
@@ -63,15 +61,15 @@ class GenericServiceScreen extends StatelessWidget {
         ),
       ),
       quickActions: [
-        QuickActionItem(icon: LucideIcons.search, label: 'Search', color: themeColor),
-        QuickActionItem(icon: LucideIcons.history, label: 'History', color: themeColor),
-        QuickActionItem(icon: LucideIcons.settings, label: 'Settings', color: themeColor),
-        QuickActionItem(icon: Icons.help_outline, label: 'Help', color: Colors.grey),
+        QuickActionData(icon: LucideIcons.search, label: 'Search', color: themeColor),
+        QuickActionData(icon: LucideIcons.history, label: 'History', color: themeColor),
+        QuickActionData(icon: LucideIcons.settings, label: 'Settings', color: themeColor),
+        QuickActionData(icon: Icons.help_outline, label: 'Help', color: Colors.grey),
       ],
       services: [
-        ServiceListItem(title: 'Service Option 1', onTap: () {}),
-        ServiceListItem(title: 'Service Option 2', onTap: () {}),
-        ServiceListItem(title: 'Support & FAQs', onTap: () {}),
+        ServiceListData(title: 'Service Option 1', onTap: () {}),
+        ServiceListData(title: 'Service Option 2', onTap: () {}),
+        ServiceListData(title: 'Support & FAQs', onTap: () {}),
       ],
       aiInsight: null, // No AI for generic yet
     );

@@ -47,28 +47,28 @@ class CommonServicesScreen extends StatelessWidget {
         ),
       ),
       quickActions: [
-        QuickActionItem(
+        QuickActionData(
           icon: Icons.bar_chart,
           label: 'Analytics',
           backgroundColor: const Color(0xFFF3F4F6), // Gray-100
           iconColor: const Color(0xFF4B5563), // Gray-600
           onTap: () {},
         ),
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.message_square,
           label: 'Tickets',
           backgroundColor: const Color(0xFFDBEAFE), // Blue-100
           iconColor: const Color(0xFF2563EB), // Blue-600
           onTap: () {},
         ),
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.layout_grid,
           label: 'Admin',
           backgroundColor: const Color(0xFFF3E8FF), // Purple-100
           iconColor: const Color(0xFF9333EA), // Purple-600
           onTap: () {},
         ),
-        QuickActionItem(
+        QuickActionData(
           icon: LucideIcons.headphones,
           label: 'Support',
           backgroundColor: const Color(0xFFDCFCE7), // Green-100
@@ -77,9 +77,9 @@ class CommonServicesScreen extends StatelessWidget {
         ),
       ],
       services: [
-        ServiceListItem(title: 'Service Logs', onTap: () {}),
-        ServiceListItem(title: 'User Management', onTap: () {}),
-        ServiceListItem(title: 'Security Controls', onTap: () {}),
+        ServiceListData(title: 'Service Logs', onTap: () {}),
+        ServiceListData(title: 'User Management', onTap: () {}),
+        ServiceListData(title: 'Security Controls', onTap: () {}),
       ],
       aiInsight: Container(
         padding: const EdgeInsets.all(16),
